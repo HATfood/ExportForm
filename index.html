@@ -6,7 +6,7 @@
     <title>فرم نیازسنجی طراحی سایت بین‌المللی - واحد صادرات</title>
     <!-- Vazir Font -->
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" type="text/css" />
-    <!-- Font Awesome for icons (needed for required field indicator & scroll-top) -->
+    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -22,17 +22,18 @@
         }
 
         html {
-             scroll-behavior: smooth; /* Smooth scrolling for scroll-to-top */
+             scroll-behavior: smooth;
         }
 
         body {
             background: linear-gradient(135deg, var(--light-accent) 0%, #ffffff 60%, #d0dbd3 100%);
             background-attachment: fixed;
             margin: 0;
-            padding: 40px 20px;
+            /* Increased top padding to account for fixed progress bar height */
+            padding: 80px 20px 40px 20px;
             line-height: 1.6;
             position: relative;
-            overflow-x: hidden; /* Prevent horizontal scroll */
+            overflow-x: hidden;
         }
 
         /* Background Pattern */
@@ -43,25 +44,112 @@
             left: 0;
             width: 100%;
             height: 100%;
-            /* Using the pattern from the snippet */
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath fill='%23004026' fill-opacity='0.05' d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z'%3E%3C/path%3E%3C/svg%3E");
             z-index: -1;
-            opacity: 0.7; /* Slightly more visible */
+            opacity: 0.7;
         }
 
-        .container {
+        /* --- Sticky Progress Bar Container --- */
+        .progress-outer-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000; /* High z-index */
+            background-color: rgba(255, 255, 255, 0.9); /* Background for contrast */
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            box-shadow: 0 2px 5px rgba(0, 64, 38, 0.1); /* Subtle shadow */
+            padding: 10px 20px; /* Padding inside the sticky container */
+        }
+        .progress-container {
+            max-width: 850px; /* Align with form container width */
+            margin: 0 auto; /* Center the progress bar itself */
+            /* Removed margin-top/bottom as it's handled by outer container padding */
+        }
+        .progress-bar {
+            width: 100%;
+            height: 10px; /* Adjusted height */
+            background-color: rgba(0, 64, 38, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--company-color), #007a4f);
+            width: 0%;
+            border-radius: 5px;
+            transition: width 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 0 8px rgba(0, 122, 79, 0.3);
+        }
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px; /* Reduced margin */
+            padding: 0;
+        }
+        .step {
+            position: relative;
+            text-align: center;
+            width: 16.666%;
+            cursor: default;
+        }
+        .step-dot {
+            width: 20px; /* Slightly smaller */
+            height: 20px;
+            background-color: #ddd;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            margin: 0 auto 5px;
+            position: relative;
+            z-index: 2;
+            transition: all 0.4s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .step.active .step-dot {
+            background-color: var(--company-color);
+            border-color: var(--company-color);
+            transform: scale(1.1);
+            box-shadow: 0 0 0 3px rgba(0, 64, 38, 0.1), 0 2px 4px rgba(0,0,0,0.15);
+        }
+        .progress-steps::before { /* Connecting line */
+            content: '';
+            position: absolute;
+            top: 12px; /* Adjust vertical alignment */
+            left: 8.333%;
+            right: 8.333%;
+            height: 3px; /* Thinner line */
+            background-color: #e0e0e0;
+            z-index: 1;
+            border-radius: 1.5px;
+        }
+        .step-label {
+            font-size: 0.8em;
+            color: #666;
+            transition: all 0.4s ease;
+        }
+        .step.active .step-label {
+            color: var(--company-color);
+            font-weight: bold;
+        }
+        /* --- End Progress Bar --- */
+
+
+        .container { /* Main form content container */
             max-width: 850px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.9); /* Less transparent for readability */
-            backdrop-filter: blur(8px); /* Slightly less blur */
+            margin: 0 auto; /* Centered below progress bar */
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             border: 1px solid rgba(255, 255, 255, 0.25);
-            padding: 40px 45px; /* Adjusted padding */
+            padding: 40px 45px;
             border-radius: 18px;
-            box-shadow: 0 10px 40px rgba(0, 64, 38, 0.2); /* Enhanced shadow */
+            box-shadow: 0 10px 40px rgba(0, 64, 38, 0.2);
             text-align: center;
-            position: relative; /* Needed for pseudo-elements */
-            overflow: hidden; /* Clip decorative elements */
+            position: relative;
+            overflow: hidden;
         }
 
         /* Decorative corner shapes */
@@ -73,9 +161,9 @@
             width: 120px;
             height: 120px;
             background-color: var(--company-color);
-            opacity: 0.08; /* Subtle opacity */
+            opacity: 0.08;
             border-radius: 50%;
-            z-index: 0; /* Behind content */
+            z-index: 0;
         }
         .container::after {
             content: "";
@@ -86,7 +174,7 @@
             height: 100px;
             background-color: var(--company-color);
             opacity: 0.08;
-            border-radius: 20px; /* Less sharp rotation */
+            border-radius: 20px;
             transform: rotate(30deg);
             z-index: 0;
         }
@@ -98,7 +186,7 @@
             height: auto;
             border-radius: 8px;
             position: relative;
-            z-index: 1; /* Above decorations */
+            z-index: 1;
             filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
             transition: transform 0.3s ease;
         }
@@ -116,12 +204,11 @@
             position: relative;
             z-index: 1;
         }
-        /* Decorative underline for H1 */
         h1::after {
             content: "";
             display: block;
-            width: 120px; /* Wider */
-            height: 4px;  /* Thicker */
+            width: 120px;
+            height: 4px;
             background: linear-gradient(to right, transparent, var(--company-color), transparent);
             margin: 18px auto 0;
             border-radius: 2px;
@@ -129,20 +216,18 @@
 
         h2 {
             color: var(--company-color);
-            /* Removed icon padding */
             padding-bottom: 10px;
-            margin-top: 0; /* Reset margin, handled by divider */
+            margin-top: 0;
             margin-bottom: 30px;
             font-size: 1.6em;
             text-align: right;
             position: relative;
             z-index: 1;
-            border-bottom: 1px solid rgba(0, 64, 38, 0.2); /* Subtle border */
+            border-bottom: 1px solid rgba(0, 64, 38, 0.2);
         }
-        /* No h2::before icon styles */
 
         .section-divider {
-            height: 2px; /* Thinner divider */
+            height: 2px;
             background: linear-gradient(to right, rgba(255,255,255,0), rgba(0, 64, 38, 0.4), rgba(255,255,255,0));
             margin: 50px auto 40px auto;
             border-radius: 1px;
@@ -155,11 +240,10 @@
         p {
            text-align: right;
            margin-bottom: 20px;
-           color: #444; /* Slightly darker text */
+           color: #444;
            position: relative;
            z-index: 1;
         }
-        /* Intro paragraph styling */
         .container > p:first-of-type {
              font-size: 1.1em;
              color: #333;
@@ -172,367 +256,216 @@
              border-left: 4px solid var(--company-color);
         }
 
-        /* --- Enhanced Progress Bar --- */
-        .progress-container {
-            margin: 35px 0 45px 0; /* Adjusted margins */
-            position: relative;
-            z-index: 2; /* Above container decorations */
-        }
-        .progress-bar {
-            width: 100%;
-            height: 12px; /* Thicker bar */
-            background-color: rgba(0, 64, 38, 0.1); /* Use company color shade */
-            border-radius: 6px;
-            overflow: hidden;
-            position: relative;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
-        }
-        .progress-fill {
-            height: 100%;
-            /* Nice gradient fill */
-            background: linear-gradient(90deg, var(--company-color), #007a4f);
-            width: 0%; /* Initial width set by JS */
-            border-radius: 6px;
-            transition: width 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother transition */
-            box-shadow: 0 0 10px rgba(0, 122, 79, 0.4); /* Add a subtle glow */
-        }
-        .progress-steps {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 12px;
-            padding: 0 5px; /* Align steps slightly better */
-        }
-        .step {
-            position: relative;
-            text-align: center;
-            width: 16.666%; /* 6 sections */
-            cursor: default; /* Indicate non-clickable */
-        }
-        .step-dot {
-            width: 24px; /* Larger dots */
-            height: 24px;
-            background-color: #ddd;
-            border: 3px solid #fff; /* White border for contrast */
-            border-radius: 50%;
-            margin: 0 auto 8px;
-            position: relative;
-            z-index: 2;
-            transition: all 0.4s ease;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .step.active .step-dot {
-            background-color: var(--company-color);
-            border-color: var(--company-color); /* Match background */
-            transform: scale(1.1); /* Slightly larger when active */
-            box-shadow: 0 0 0 4px rgba(0, 64, 38, 0.15), 0 3px 6px rgba(0,0,0,0.2); /* More prominent */
-        }
-        /* Line connecting dots (visual only) */
-        .progress-steps::before {
-            content: '';
-            position: absolute;
-            top: 14px; /* Align with center of dots */
-            left: 8.333%; /* Start after half of first step */
-            right: 8.333%; /* End before half of last step */
-            height: 4px;
-            background-color: #e0e0e0;
-            z-index: 1; /* Behind dots */
-            border-radius: 2px;
-        }
-        .step-label {
-            font-size: 0.85em; /* Slightly larger label */
-            color: #666;
-            transition: all 0.4s ease;
-        }
-        .step.active .step-label {
-            color: var(--company-color);
-            font-weight: bold;
-            transform: translateY(2px); /* Slight shift down */
-        }
-
-        /* Form Group & Label Styling */
         .form-group {
-            margin-bottom: 28px; /* Slightly more space */
+            margin-bottom: 28px;
             text-align: right;
             position: relative;
             z-index: 1;
         }
         label {
             display: block;
-            margin-bottom: 10px; /* More space below label */
+            margin-bottom: 10px;
             font-weight: bold;
             color: #333;
             text-align: right;
             position: relative;
         }
-        /* Required field indicator using Font Awesome */
         label.required::after {
-            /* Using ::after to place it correctly in RTL */
             font-family: "Font Awesome 6 Free";
-            content: "\f06a"; /* Exclamation Circle */
+            content: "\f06a";
             font-weight: 900;
-            margin-right: 8px; /* Space before label */
+            margin-right: 8px;
             font-size: 0.85em;
             color: var(--company-color);
             opacity: 0.8;
             vertical-align: middle;
         }
-        /* Removed original .required:after asterisk style */
 
-        /* Input Field Styling */
+        /* --- Input Field Styling (Invisible + Right Border) --- */
         input[type="text"],
         input[type="email"],
         input[type="tel"],
         textarea,
         select {
             width: 100%;
-            padding: 13px 18px; /* More padding */
-            border: 1px solid #ccc;
-            border-radius: 8px;
+            padding: 12px 15px 12px 5px; /* Adjusted padding for right border */
             font-size: 16px;
-            background-color: rgba(255, 255, 255, 0.8); /* Slightly more opaque */
+            background-color: transparent; /* Invisible background */
+            border: none; /* Remove default border */
+            border-bottom: 1px solid #ccc; /* Underline for definition */
+            border-right: 3px solid rgba(0, 64, 38, 0.25); /* Subtle right border when unfocused */
+            border-radius: 0; /* Sharp corners */
+            color: #333;
             transition: all 0.3s ease;
-            border-right: 5px solid transparent; /* Start with transparent border (RTL) */
-        }
-        input:focus, textarea:focus, select:focus {
-            outline: none;
-            border-color: #bbb; /* Main border slightly darker on focus */
-            border-right: 5px solid var(--company-color); /* Animate right border (RTL) */
-            box-shadow: 0 0 12px rgba(0, 64, 38, 0.12); /* Softer glow */
-            background-color: white; /* Fully opaque on focus */
-        }
-        textarea {
-            min-height: 130px; /* Taller textarea */
-            resize: vertical;
+            box-shadow: none; /* Ensure no shadow initially */
         }
 
-        /* Table Styling */
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="tel"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            background-color: white; /* Make background visible */
+            border-bottom-color: var(--company-color); /* Green underline */
+            border-right-width: 4px; /* Thicker right border */
+            border-right-color: var(--company-color); /* Green right border */
+            /* Add a glow effect */
+            box-shadow: 0 0 10px rgba(0, 64, 38, 0.2);
+        }
+
+        textarea {
+            min-height: 130px;
+            resize: vertical;
+        }
+        /* --- End Input Field Styling --- */
+
+
+        /* Table Styling (keeping it readable) */
         .rating-table {
             width: 100%;
-            border-collapse: separate; /* Use separate for better border-radius */
+            border-collapse: separate;
             border-spacing: 0;
             margin-bottom: 30px;
             background-color: rgba(255, 255, 255, 0.6);
-            border-radius: 10px; /* Match container */
+            border-radius: 10px;
             overflow: hidden;
             border: 1px solid #e8e8e8;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.04);
         }
         .rating-table th, .rating-table td {
-            padding: 14px 18px; /* More padding */
+            padding: 14px 18px;
             border-bottom: 1px solid #eee;
             text-align: right;
             vertical-align: middle;
         }
         .rating-table tbody tr:hover {
-            background-color: rgba(0, 64, 38, 0.03); /* Subtle hover */
+            background-color: rgba(0, 64, 38, 0.03);
         }
         .rating-table tbody tr:last-child td { border-bottom: none; }
         .rating-table th {
             background-color: rgba(0, 64, 38, 0.09);
             font-weight: bold;
             color: var(--company-color);
-            border-bottom: 1px solid rgba(0, 64, 38, 0.15); /* Stronger header border */
+            border-bottom: 1px solid rgba(0, 64, 38, 0.15);
         }
+        /* Apply input style within table */
         .rating-table td input[type="text"] {
-             background-color: rgba(255, 255, 255, 0.85);
-             border-right-width: 4px; /* Adjust focus border */
+             background-color: rgba(255, 255, 255, 0.85); /* Keep slight background in table */
+             border-radius: 4px; /* Slight radius for table inputs */
+             border-bottom-width: 1px; /* Consistent bottom border */
+             border-right-width: 3px;
+             padding: 10px 12px; /* Adjust padding */
         }
         .rating-table td input[type="text"]:focus {
+            background-color: white;
             border-right-width: 4px;
         }
 
 
-        /* Radio Buttons Styling */
+        /* Radio Buttons Styling (Keeping previous enhancements) */
         .importance-options, .rating-options {
             text-align: right;
             padding-top: 5px;
         }
         .importance-options label, .rating-options label {
-            display: inline-block; /* Was inline-flex, check layout */
-            margin-left: 20px; /* Space between options */
+            display: inline-block;
+            margin-left: 20px;
             font-weight: normal;
             cursor: pointer;
             color: #555;
             position: relative;
-            padding-right: 28px; /* Space for custom radio */
+            padding-right: 28px;
             transition: all 0.2s ease;
-            line-height: 20px; /* Align text better */
+            line-height: 20px;
         }
         .importance-options label:hover, .rating-options label:hover {
             color: var(--company-color);
         }
-        /* Hide default radio */
         .importance-options input[type="radio"],
         .rating-options input[type="radio"] {
-            position: absolute;
-            opacity: 0;
-            cursor: pointer;
-            height: 0;
-            width: 0;
+            position: absolute; opacity: 0; cursor: pointer; height: 0; width: 0;
         }
-        /* Custom Radio Appearance */
         .importance-options label::before,
         .rating-options label::before {
-            content: '';
-            position: absolute;
-            right: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 20px;
-            height: 20px;
-            border: 2px solid #bbb;
-            border-radius: 50%;
-            background-color: #fff;
-            transition: all 0.3s ease;
+            content: ''; position: absolute; right: 0; top: 50%; transform: translateY(-50%);
+            width: 20px; height: 20px; border: 2px solid #bbb; border-radius: 50%;
+            background-color: #fff; transition: all 0.3s ease;
         }
-        /* Checked state - border */
         .importance-options input[type="radio"]:checked + label::before,
         .rating-options input[type="radio"]:checked + label::before {
-            border-color: var(--company-color);
-            background-color: var(--light-accent);
+            border-color: var(--company-color); background-color: var(--light-accent);
         }
-        /* Checked state - inner dot */
         .importance-options label::after,
         .rating-options label::after {
-            content: '';
-            position: absolute;
-            right: 6px; /* Position inside the ::before circle */
-            top: 50%;
-            transform: translateY(-50%) scale(0); /* Start hidden */
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background-color: var(--company-color);
+            content: ''; position: absolute; right: 6px; top: 50%; transform: translateY(-50%) scale(0);
+            width: 10px; height: 10px; border-radius: 50%; background-color: var(--company-color);
             transition: all 0.3s ease;
         }
         .importance-options input[type="radio"]:checked + label::after,
         .rating-options input[type="radio"]:checked + label::after {
-             transform: translateY(-50%) scale(1); /* Scale in when checked */
+             transform: translateY(-50%) scale(1);
         }
 
 
         /* Submit Button Styling */
         .btn-submit {
-            background-color: var(--company-color);
-            color: white;
-            border: none;
-            padding: 16px 30px; /* Larger padding */
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 10px; /* Match tables/inputs */
-            width: 100%;
-            margin-top: 25px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden; /* For pseudo-element */
-            z-index: 1;
-             box-shadow: 0 4px 10px rgba(0, 64, 38, 0.2);
+            background-color: var(--company-color); color: white; border: none;
+            padding: 16px 30px; font-size: 18px; font-weight: bold; cursor: pointer;
+            border-radius: 10px; width: 100%; margin-top: 25px; transition: all 0.3s ease;
+            position: relative; overflow: hidden; z-index: 1;
+            box-shadow: 0 4px 10px rgba(0, 64, 38, 0.2);
         }
-        /* Shimmer effect on hover */
         .btn-submit::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: -150%; /* Start further left */
-            width: 80%; /* Wider shimmer */
-            height: 100%;
+            content: ""; position: absolute; top: 0; left: -150%; width: 80%; height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
-            transform: skewX(-25deg); /* Angled shimmer */
-            transition: left 0.7s ease; /* Slower transition */
+            transform: skewX(-25deg); transition: left 0.7s ease;
         }
         .btn-submit:hover {
-            background-color: #005a36;
-            transform: translateY(-3px); /* Lift effect */
-            box-shadow: 0 7px 18px rgba(0, 64, 38, 0.3); /* Stronger shadow */
+            background-color: #005a36; transform: translateY(-3px);
+            box-shadow: 0 7px 18px rgba(0, 64, 38, 0.3);
         }
-        .btn-submit:hover::before {
-            left: 120%; /* Move across and off */
-        }
-        .btn-submit:active {
-             transform: translateY(-1px);
-             box-shadow: 0 4px 10px rgba(0, 64, 38, 0.2);
-        }
+        .btn-submit:hover::before { left: 120%; }
+        .btn-submit:active { transform: translateY(-1px); box-shadow: 0 4px 10px rgba(0, 64, 38, 0.2); }
 
 
         /* Success Message Styling */
         .success-message {
-            padding: 18px 25px;
-            background-color: rgba(223, 240, 216, 0.9); /* Slightly more opaque */
-            border: 1px solid #b7e3ae; /* Softer green border */
-            color: #2a5b2f; /* Darker green text */
-            border-radius: 10px;
-            margin-top: 35px;
-            display: none; /* Hidden initially */
-            text-align: center;
-            position: relative;
-            z-index: 1;
-            animation: fadeInUp 0.6s ease-out; /* Slightly slower animation */
-            font-weight: bold;
+            padding: 18px 25px; background-color: rgba(223, 240, 216, 0.9);
+            border: 1px solid #b7e3ae; color: #2a5b2f; border-radius: 10px;
+            margin-top: 35px; display: none; text-align: center;
+            position: relative; z-index: 1; animation: fadeInUp 0.6s ease-out; font-weight: bold;
         }
-        .success-message i {
-            margin-left: 10px;
-            font-size: 1.1em;
-            vertical-align: middle;
-        }
+        .success-message i { margin-left: 10px; font-size: 1.1em; vertical-align: middle; }
+
 
         /* Scroll-to-top Indicator */
         .scroll-indicator {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            width: 45px; /* Larger */
-            height: 45px;
-            border-radius: 50%;
-            background-color: var(--company-color);
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            box-shadow: 0 5px 18px rgba(0, 64, 38, 0.3); /* Stronger shadow */
-            opacity: 0; /* Hidden initially */
-            visibility: hidden; /* Hidden initially */
-            transition: all 0.4s ease; /* Smoother transition */
-            z-index: 1000;
+            position: fixed; bottom: 25px; right: 25px; width: 45px; height: 45px;
+            border-radius: 50%; background-color: var(--company-color); color: white;
+            display: flex; justify-content: center; align-items: center; cursor: pointer;
+            box-shadow: 0 5px 18px rgba(0, 64, 38, 0.3); opacity: 0; visibility: hidden;
+            transition: all 0.4s ease; z-index: 1000;
         }
-        .scroll-indicator.visible {
-            opacity: 0.9; /* Slightly transparent */
-            visibility: visible;
-        }
-        .scroll-indicator:hover {
-            opacity: 1;
-            transform: scale(1.1);
-        }
-        .scroll-indicator i {
-            animation: bounce 2s infinite ease-in-out;
-        }
-        /* Bounce Animation */
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            60% { transform: translateY(-5px); }
-        }
+        .scroll-indicator.visible { opacity: 0.9; visibility: visible; }
+        .scroll-indicator:hover { opacity: 1; transform: scale(1.1); }
+        .scroll-indicator i { animation: bounce 2s infinite ease-in-out; }
 
-        /* FadeInUp Animation */
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(25px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        /* Animations */
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } 60% { transform: translateY(-5px); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(25px); } to { opacity: 1; transform: translateY(0); } }
 
         /* Responsive Adjustments */
         @media (max-width: 768px) {
-            .container {
-                padding: 25px 20px;
-                border-radius: 12px;
-            }
-             body { padding: 30px 10px; }
-            h1 { font-size: 1.8em; }
-            h1::after { width: 80px; height: 3px;}
-            h2 { font-size: 1.4em; }
-            .step-label { display: none; } /* Hide labels on small screens */
-            .progress-steps::before { display: none; } /* Hide connecting line */
+            body { padding-top: 90px; padding-left: 10px; padding-right: 10px; } /* Adjust top padding for potentially wrapped progress labels */
+            .progress-outer-container { padding: 8px 15px; }
+            .step-label { display: none; }
+            .progress-steps::before { display: none; }
             .step-dot { width: 18px; height: 18px; border-width: 2px;}
+            .container { padding: 25px 20px; border-radius: 12px; }
+            h1 { font-size: 1.8em; } h1::after { width: 80px; height: 3px;}
+            h2 { font-size: 1.4em; }
+            input[type="text"], input[type="email"], input[type="tel"], textarea, select { padding: 10px 12px 10px 5px; }
              .importance-options label, .rating-options label { margin-left: 15px; padding-right: 24px;}
              .importance-options label::before, .rating-options label::before {width: 16px; height: 16px;}
               .importance-options label::after, .rating-options label::after {width: 8px; height: 8px; right: 4px;}
@@ -543,48 +476,40 @@
     </style>
 </head>
 <body>
+
+    <!-- Sticky Progress Bar -->
+    <div class="progress-outer-container">
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-steps" id="progressSteps">
+                <div class="step active" data-section="section1"><div class="step-dot"></div><div class="step-label">اطلاعات پایه</div></div>
+                <div class="step" data-section="section2"><div class="step-dot"></div><div class="step-label">مخاطبان</div></div>
+                <div class="step" data-section="section3"><div class="step-dot"></div><div class="step-label">محتوا</div></div>
+                <div class="step" data-section="section4"><div class="step-dot"></div><div class="step-label">ویژگی‌ها</div></div>
+                <div class="step" data-section="section5"><div class="step-dot"></div><div class="step-label">اهداف</div></div>
+                <div class="step" data-section="section6"><div class="step-dot"></div><div class="step-label">نظرات</div></div>
+            </div>
+        </div>
+    </div>
+
     <!-- Scroll Top Button -->
     <div class="scroll-indicator" id="scrollTopBtn">
         <i class="fas fa-chevron-up"></i>
     </div>
 
+    <!-- Main Form Container -->
     <div class="container">
         <img id="companyLogo" src="logo_mark.jpg" alt="لوگوی شرکت">
 
         <h1>فرم نیازسنجی طراحی سایت بین‌المللی - واحد صادرات</h1>
         <p><strong>هدف:</strong> شناسایی دقیق نیازهای واحد صادرات برای طراحی یک وب‌سایت بین‌المللی کارآمد، متناسب با مخاطبان خارجی، با تمرکز بر فروش، ارتباط و برندینگ جهانی.</p>
 
-        <!-- Enhanced Progress indicator -->
-        <div class="progress-container">
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
-            </div>
-            <div class="progress-steps" id="progressSteps">
-                <!-- Steps correspond to H2 IDs -->
-                <div class="step active" data-section="section1">
-                    <div class="step-dot"></div><div class="step-label">اطلاعات پایه</div>
-                </div>
-                <div class="step" data-section="section2">
-                    <div class="step-dot"></div><div class="step-label">مخاطبان</div>
-                </div>
-                <div class="step" data-section="section3">
-                    <div class="step-dot"></div><div class="step-label">محتوا</div>
-                </div>
-                <div class="step" data-section="section4">
-                    <div class="step-dot"></div><div class="step-label">ویژگی‌ها</div>
-                </div>
-                <div class="step" data-section="section5">
-                    <div class="step-dot"></div><div class="step-label">اهداف</div>
-                </div>
-                <div class="step" data-section="section6">
-                    <div class="step-dot"></div><div class="step-label">نظرات</div>
-                </div>
-            </div>
-        </div>
-
+        <!-- Form Starts Here -->
         <form id="exportForm">
 
-            <!-- Section 1: Basic Info -->
+             <!-- Section 1: Basic Info -->
             <h2 id="section1">۱. اطلاعات پایه واحد صادرات</h2>
             <div class="form-group">
                 <label for="fullName" class="required">نام و سمت پرکننده فرم</label>
@@ -626,7 +551,7 @@
 
             <div class="section-divider"></div>
 
-            <!-- Section 3: Content Needs -->
+             <!-- Section 3: Content Needs -->
             <h2 id="section3">۳. محتوای مورد نیاز در سایت</h2>
             <p>لطفاً مشخص کنید که وجود هر یک از بخش‌های زیر برای شما چقدر اهمیت دارد:</p>
             <table class="rating-table">
@@ -634,7 +559,6 @@
                     <tr><th>بخش</th><th>اهمیت</th><th>توضیحات بیشتر (در صورت نیاز)</th></tr>
                 </thead>
                 <tbody>
-                    <!-- Ensuring all rows are present -->
                     <tr>
                         <td>معرفی شرکت</td>
                         <td>
@@ -646,7 +570,7 @@
                         </td>
                         <td><input type="text" name="note_company"></td>
                     </tr>
-                    <tr>
+                     <tr>
                         <td>معرفی محصولات و دسته‌بندی‌ها</td>
                         <td>
                             <div class="importance-options">
@@ -657,7 +581,7 @@
                         </td>
                         <td><input type="text" name="note_products"></td>
                     </tr>
-                    <tr>
+                     <tr>
                         <td>دریافت کاتالوگ PDF یا فایل‌های مرتبط</td>
                         <td>
                             <div class="importance-options">
@@ -679,7 +603,7 @@
                         </td>
                         <td><input type="text" name="note_inquiry"></td>
                     </tr>
-                    <tr>
+                     <tr>
                         <td>مشخصات تماس مستقیم با تیم صادرات</td>
                         <td>
                             <div class="importance-options">
@@ -690,7 +614,7 @@
                         </td>
                         <td><input type="text" name="note_contact"></td>
                     </tr>
-                    <tr>
+                     <tr>
                         <td>نقشه یا مسیر دسترسی</td>
                         <td>
                             <div class="importance-options">
@@ -701,7 +625,7 @@
                         </td>
                         <td><input type="text" name="note_map"></td>
                     </tr>
-                    <tr>
+                     <tr>
                         <td>صفحه سؤالات متداول (FAQ)</td>
                         <td>
                             <div class="importance-options">
@@ -712,7 +636,7 @@
                         </td>
                         <td><input type="text" name="note_faq"></td>
                     </tr>
-                    <tr>
+                     <tr>
                         <td>بلاگ تخصصی یا مقالات</td>
                         <td>
                             <div class="importance-options">
@@ -723,7 +647,7 @@
                         </td>
                         <td><input type="text" name="note_blog"></td>
                     </tr>
-                    <tr>
+                     <tr>
                         <td>اخبار شرکت / حضور در نمایشگاه‌ها</td>
                         <td>
                             <div class="importance-options">
@@ -739,7 +663,7 @@
 
             <div class="section-divider"></div>
 
-            <!-- Section 4: Technical Features -->
+             <!-- Section 4: Technical Features -->
             <h2 id="section4">۴. ویژگی‌های فنی و عملکردی مورد انتظار</h2>
              <div class="form-group">
                 <label for="showPrices">آیا لازم است محصولات با قیمت نمایش داده شوند؟ اگر بله، قیمت برای چه کسی؟ (عموم، نماینده، خریدار خاص)</label>
@@ -764,13 +688,12 @@
 
             <div class="section-divider"></div>
 
-            <!-- Section 5: Goals -->
+             <!-- Section 5: Goals -->
             <h2 id="section5">۵. اهداف اصلی سایت از نظر شما چیست؟</h2>
             <p>هر مورد را از ۱ تا ۵ امتیاز دهید: ۱ = کم‌اهمیت، ۵ = بسیار مهم</p>
             <table class="rating-table">
                 <thead><tr><th>هدف</th><th>امتیاز</th><th>پیشنهادات برای تحقق</th></tr></thead>
                  <tbody>
-                     <!-- Ensuring all rows are present -->
                     <tr>
                         <td>افزایش آگاهی از برند در بازارهای خارجی</td>
                         <td>
@@ -784,7 +707,7 @@
                         </td>
                         <td><input type="text" name="suggestion_awareness"></td>
                     </tr>
-                    <tr>
+                     <tr>
                         <td>جذب مشتری جدید بین‌المللی</td>
                         <td>
                             <div class="rating-options">
@@ -797,7 +720,7 @@
                         </td>
                         <td><input type="text" name="suggestion_acquisition"></td>
                     </tr>
-                    <tr>
+                     <tr>
                         <td>ایجاد اعتماد در خریدار خارجی</td>
                         <td>
                             <div class="rating-options">
@@ -810,7 +733,7 @@
                         </td>
                         <td><input type="text" name="suggestion_trust"></td>
                     </tr>
-                    <tr>
+                     <tr>
                         <td>ارائه اطلاعات فنی و تخصصی به مشتری</td>
                         <td>
                             <div class="rating-options">
@@ -876,6 +799,7 @@
 
             <button type="submit" class="btn-submit">ارسال فرم</button>
         </form>
+        <!-- End Form -->
 
         <!-- Success Message -->
         <div id="successMessage" class="success-message">
@@ -884,107 +808,82 @@
         </div>
     </div><!-- End Container -->
 
-    <!-- JavaScript -->
+    <!-- JavaScript (keeping previous logic) -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
 
-            // --- Scroll-to-Top Button Logic ---
+            // Scroll-to-Top Button Logic
             const scrollTopBtn = document.getElementById('scrollTopBtn');
             if (scrollTopBtn) {
                 window.addEventListener('scroll', () => {
-                    if (window.scrollY > 300) { // Show after scrolling down 300px
-                        scrollTopBtn.classList.add('visible');
-                    } else {
-                        scrollTopBtn.classList.remove('visible');
-                    }
+                    scrollTopBtn.classList.toggle('visible', window.scrollY > 300);
                 });
-                scrollTopBtn.addEventListener('click', () => {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                });
+                scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
             }
 
-            // --- Progress Bar Logic (Intersection Observer) ---
+            // Progress Bar Logic (Intersection Observer)
             const progressFill = document.getElementById('progressFill');
             const steps = document.querySelectorAll('#progressSteps .step');
-            const sections = document.querySelectorAll('h2[id^="section"]'); // Select all h2 with id starting "section"
+            const sections = document.querySelectorAll('h2[id^="section"]');
             const numSections = sections.length;
-            let highestVisibleSection = 0;
+            let currentActiveSection = 0; // Track the *currently* most prominent section
 
             if (progressFill && steps.length > 0 && sections.length > 0) {
                 const observerCallback = (entries) => {
+                    let maxRatio = -1; // Track the highest intersection ratio
+
                     entries.forEach(entry => {
                         const sectionId = entry.target.id;
                         const sectionNumber = parseInt(sectionId.replace('section', ''), 10);
 
-                        if (entry.isIntersecting) {
-                            // Update highest visible section if the current one is higher
-                           highestVisibleSection = Math.max(highestVisibleSection, sectionNumber);
-                        } else {
-                            // Optional: If you want progress to decrease when scrolling up past sections
-                            // you might need more complex logic here, but for a standard progress bar,
-                            // just tracking the highest reached point is common.
-                            // If the highest visible section just scrolled out *upwards*,
-                            // we might need to find the *new* highest visible one below it.
-                            // For simplicity, we'll stick to max progress reached.
+                        // Update based on the entry with the highest intersection ratio
+                        if (entry.isIntersecting && entry.intersectionRatio > maxRatio) {
+                             maxRatio = entry.intersectionRatio;
+                             currentActiveSection = sectionNumber;
                         }
+                        // Additional logic if needed when element leaves viewport completely
+                        // else if (!entry.isIntersecting) { ... }
                     });
 
-                     // Update progress bar based on the highest section seen so far
-                    const progressPercent = (highestVisibleSection / numSections) * 100;
-                    progressFill.style.width = `${progressPercent}%`;
+                     // Update progress bar fill based on the current active section
+                    const progressPercent = ((currentActiveSection - 1) / (numSections -1)) * 100; // Progress based on sections completed
+                    progressFill.style.width = `${Math.min(100, Math.max(0,progressPercent))}%`; // Clamp between 0-100
 
-                    // Update active step indicators
+                    // Update active step indicators based on the currently active section
                     steps.forEach((step, index) => {
-                        const stepSectionNumber = index + 1;
-                        if (stepSectionNumber <= highestVisibleSection) {
-                            step.classList.add('active');
-                        } else {
-                            step.classList.remove('active');
-                        }
+                        step.classList.toggle('active', (index + 1) === currentActiveSection);
                     });
                 };
 
                 const observerOptions = {
-                    root: null, // Use the viewport
-                    rootMargin: '0px',
-                    threshold: 0.1 // Trigger when 10% of the section header is visible
+                    root: null,
+                    rootMargin: '0px 0px -50% 0px', // Trigger when section is entering upper half of viewport
+                    threshold: 0 // Trigger as soon as any part enters/leaves margin
                 };
 
                 const observer = new IntersectionObserver(observerCallback, observerOptions);
+                sections.forEach(section => observer.observe(section));
 
-                sections.forEach(section => {
-                    observer.observe(section);
-                });
-
-                // Initial check in case a section is already visible on load
-                 // We might need a slight delay or alternative check for initial state
-                setTimeout(() => {
-                     sections.forEach(section => {
-                         const rect = section.getBoundingClientRect();
-                         if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
-                              const sectionNumber = parseInt(section.id.replace('section', ''), 10);
-                              highestVisibleSection = Math.max(highestVisibleSection, sectionNumber);
-                         }
-                     });
-                     const initialProgressPercent = (highestVisibleSection / numSections) * 100;
-                     progressFill.style.width = `${initialProgressPercent}%`;
-                     steps.forEach((step, index) => {
-                        if (index + 1 <= highestVisibleSection) step.classList.add('active');
-                     });
-                }, 100); // Small delay for layout
-
+                 // Initial check for the very first section
+                 if (sections[0]) {
+                     const rect = sections[0].getBoundingClientRect();
+                      if (rect.top <= window.innerHeight && rect.bottom >=0) { // Check if initially visible
+                           currentActiveSection = 1;
+                           steps[0].classList.add('active');
+                      }
+                 }
 
             } else {
                 console.warn("Progress bar elements not found.");
             }
 
-
-            // --- Form Submission Logic (Formspree) ---
+            // Form Submission Logic (Formspree)
             const exportForm = document.getElementById('exportForm');
             if (exportForm) {
                 exportForm.addEventListener('submit', function(e) {
                     e.preventDefault();
-
+                    // (Keeping the existing fetch logic from the previous step)
+                    // ... your fetch code ...
                     const formData = new FormData(this);
                     const formObject = Object.fromEntries(formData.entries());
                     const jsonData = JSON.stringify(formObject);
@@ -994,62 +893,48 @@
                     const successMessage = document.getElementById('successMessage');
                     const originalButtonText = submitButton.textContent;
 
-                    // Indicate processing
                     submitButton.disabled = true;
                     submitButton.textContent = 'در حال ارسال...';
-                    successMessage.style.display = 'none'; // Hide previous message
+                    successMessage.style.display = 'none';
 
                     fetch(formspreeURL, {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json'
-                        },
+                        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
                         body: jsonData
                     })
                     .then(response => {
-                         // Check if response status is ok (2xx) or redirection (3xx) which formspree might use
                         if (response.ok || (response.status >= 300 && response.status < 400) ) {
-                             return Promise.resolve(response); // Treat success/redirect as success
+                             return Promise.resolve(response);
                         } else {
-                            // Try to parse error json, otherwise throw generic error
                             return response.json().then(data => {
-                                if (Object.hasOwn(data, 'errors')) {
-                                    throw new Error(data["errors"].map(error => error["message"]).join(", "));
-                                } else {
-                                    throw new Error('Formspree submission failed with status: ' + response.status);
-                                }
-                            }).catch(jsonError => { // Catch if response is not json or .json() fails
-                                throw new Error('Formspree submission failed with status: ' + response.status + '. Could not parse error details.');
-                            });
+                                throw new Error(data.errors ? data.errors.map(e => e.message).join(', ') : 'Form submission failed');
+                            }).catch(err => { throw new Error('Form submission failed with status: ' + response.status); });
                         }
                     })
-                    .then(() => { // Handle successful submission
+                    .then(() => {
                         console.log('Success with Formspree!');
-                        successMessage.style.display = 'block'; // Show success
-                        exportForm.reset(); // Clear form fields
-                        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); // Scroll to bottom
-                        highestVisibleSection = 0; // Reset progress tracking
+                        successMessage.style.display = 'block';
+                        exportForm.reset();
+                        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+                        currentActiveSection = 0; // Reset progress
                         progressFill.style.width = '0%';
                         steps.forEach((step, index) => step.classList.toggle('active', index === 0));
 
-                        // Hide success message after 7 seconds
-                         setTimeout(() => {
+                        setTimeout(() => {
                             successMessage.style.transition = 'opacity 0.5s ease';
                             successMessage.style.opacity = '0';
                              setTimeout(() => {
                                  successMessage.style.display = 'none';
-                                 successMessage.style.opacity = '1'; // Reset opacity
-                                 successMessage.style.transition = ''; // Reset transition
-                             }, 500); // Wait for fade out
+                                 successMessage.style.opacity = '1';
+                                 successMessage.style.transition = '';
+                             }, 500);
                          }, 7000);
-
                     })
-                    .catch(error => { // Handle fetch/parsing errors
+                    .catch(error => {
                         console.error('Error!', error.message);
                         alert('مشکلی در ارسال فرم رخ داده است. لطفا دوباره تلاش کنید.\nError: ' + error.message);
                     })
-                    .finally(() => { // Always re-enable button
+                    .finally(() => {
                         submitButton.disabled = false;
                         submitButton.textContent = originalButtonText;
                     });
@@ -1059,5 +944,6 @@
             }
         });
     </script>
+
 </body>
 </html>
