@@ -399,63 +399,49 @@
 
     <script>
         document.getElementById('exportForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Collection form data
-            const formData = new FormData(this);
-            const formEntries = {};
-            
-            for(let [key, value] of formData.entries()) {
-                formEntries[key] = value;
-            }
-            
-            // Convert form data to JSON
-            const jsonData = JSON.stringify(formEntries, null, 2);
-            
-            // Options for handling form submission:
-            /*
-            // Option 1: Save to file (download JSON)
-            const blob = new Blob([jsonData], {type: 'application/json'});
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'export_department_needs_' + new Date().toISOString().split('T')[0] + '.json';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            */
-            // Option 2: If you want to send via email using a service like FormSubmit
-            // Uncomment and modify this section to work with your email service
-            
-            fetch('https://formsubmit.co/msd_emerald@yahoo.com', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: jsonData
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-                document.getElementById('successMessage').style.display = 'block';
-                document.getElementById('exportForm').reset();
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('مشکلی در ارسال فرم رخ داده است. لطفا دوباره تلاش کنید.');
-            });
-            
-            
-            // Show success message and reset form
+    e.preventDefault();
+
+    const formData = new FormData(this);
+    const formObject = Object.fromEntries(formData.entries()); // Simpler way to create object
+    const jsonData = JSON.stringify(formObject);
+
+    // --- Use Formspree Endpoint ---
+    const formspreeURL = 'https://formspree.io/f/xaneklpz'; // <-- PASTE YOUR FORM ID HERE
+
+    fetch(formspreeURL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json' // Important for Formspree
+        },
+        body: jsonData
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log('Success with Formspree!');
             document.getElementById('successMessage').style.display = 'block';
             document.getElementById('exportForm').reset();
-            
-            // Hide success message after 5 seconds
-            setTimeout(() => {
-                document.getElementById('successMessage').style.display = 'none';
-            }, 5000);
-        });
+        } else {
+            // Try to get error details from Formspree response
+            response.json().then(data => {
+              if (Object.hasOwn(data, 'errors')) {
+                throw new Error(data["errors"].map(error => error["message"]).join(", "));
+              } else {
+                throw new Error('Formspree submission failed with status: ' + response.status);
+              }
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Error!', error.message);
+        alert('مشکلی در ارسال فرم رخ داده است. لطفا دوباره تلاش کنید.\nError: ' + error.message);
+    })
+    .finally(() => {
+         setTimeout(() => {
+             document.getElementById('successMessage').style.display = 'none';
+         }, 5000);
+    });
+});
     </script>
 </body>
 </html>
