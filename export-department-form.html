@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فرم نیازسنجی طراحی سایت بین‌المللی - واحد صادرات</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Tahoma, Arial, sans-serif;
+        }
+        body {
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #333;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        .rating-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .rating-table th, .rating-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: right;
+        }
+        .rating-table th {
+            background-color: #f0f0f0;
+        }
+        .importance-options label, .rating-options label {
+            display: inline-block;
+            margin-right: 10px;
+            font-weight: normal;
+        }
+        .importance-options input, .rating-options input {
+            width: auto;
+            margin-left: 5px;
+        }
+        .btn-submit {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+            width: 100%;
+        }
+        .btn-submit:hover {
+            background-color: #45a049;
+        }
+        .required:after {
+            content: " *";
+            color: red;
+        }
+        .success-message {
+            padding: 15px;
+            background-color: #dff0d8;
+            border: 1px solid #d6e9c6;
+            color: #3c763d;
+            border-radius: 4px;
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>فرم نیازسنجی طراحی سایت بین‌المللی - واحد صادرات</h1>
+        <p><strong>هدف:</strong> شناسایی دقیق نیازهای واحد صادرات برای طراحی یک وب‌سایت بین‌المللی کارآمد، متناسب با مخاطبان خارجی، با تمرکز بر فروش، ارتباط و برندینگ جهانی.</p>
+        
+        <form id="exportForm">
+            <h2>۱. اطلاعات پایه واحد صادرات</h2>
+            <div class="form-group">
+                <label for="fullName" class="required">نام و سمت پرکننده فرم</label>
+                <input type="text" id="fullName" name="fullName" required>
+            </div>
+            <div class="form-group">
+                <label for="contact" class="required">ایمیل / شماره تماس</label>
+                <input type="text" id="contact" name="contact" required>
+            </div>
+            <div class="form-group">
+                <label for="experience">سابقه حضور در بازارهای بین‌المللی</label>
+                <textarea id="experience" name="experience"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="currentMarkets">کشورهای هدف فعلی</label>
+                <textarea id="currentMarkets" name="currentMarkets"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="futureMarkets">کشورهای هدف آینده (در صورت وجود)</label>
+                <textarea id="futureMarkets" name="futureMarkets"></textarea>
+            </div>
+            
+            <h2>۲. مخاطبان هدف وب‌سایت</h2>
+            <div class="form-group">
+                <label for="targetAudience">مشتریان اصلی خارجی چه کسانی هستند؟ (واردکننده، پخش‌کننده، فروشگاه‌ها، مصرف‌کننده نهایی و ...)</label>
+                <textarea id="targetAudience" name="targetAudience"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="channels">این مشتریان بیشتر از چه کانال‌هایی با ما آشنا می‌شوند؟ (جستجوی گوگل، نمایشگاه‌ها، لینکدین، ایمیل مارکتینگ و ...)</label>
+                <textarea id="channels" name="channels"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="languages">به چه زبان‌هایی نیاز داریم؟ لطفاً اولویت‌بندی کنید.</label>
+                <textarea id="languages" name="languages"></textarea>
+            </div>
+            
+            <h2>۳. محتوای مورد نیاز در سایت</h2>
+            <p>لطفاً مشخص کنید که وجود هر یک از بخش‌های زیر برای شما چقدر اهمیت دارد:</p>
+            
+            <table class="rating-table">
+                <thead>
+                    <tr>
+                        <th>بخش</th>
+                        <th>اهمیت</th>
+                        <th>توضیحات بیشتر (در صورت نیاز)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>معرفی شرکت</td>
+                        <td>
+                            <div class="importance-options">
+                                <label><input type="radio" name="importance_company" value="ضروری"> ضروری</label>
+                                <label><input type="radio" name="importance_company" value="مفید"> مفید</label>
+                                <label><input type="radio" name="importance_company" value="بی‌اهمیت"> بی‌اهمیت</label>
+                            </div>
+                        </td>
+                        <td><input type="text" name="note_company"></td>
+                    </tr>
+                    <tr>
+                        <td>معرفی محصولات و دسته‌بندی‌ها</td>
+                        <td>
+                            <div class="importance-options">
+                                <label><input type="radio" name="importance_products" value="ضروری"> ضروری</label>
+                                <label><input type="radio" name="importance_products" value="مفید"> مفید</label>
+                                <label><input type="radio" name="importance_products" value="بی‌اهمیت"> بی‌اهمیت</label>
+                            </div>
+                        </td>
+                        <td><input type="text" name="note_products"></td>
+                    </tr>
+                    <tr>
+                        <td>دریافت کاتالوگ PDF یا فایل‌های مرتبط</td>
+                        <td>
+                            <div class="importance-options">
+                                <label><input type="radio" name="importance_catalog" value="ضروری"> ضروری</label>
+                                <label><input type="radio" name="importance_catalog" value="مفید"> مفید</label>
+                                <label><input type="radio" name="importance_catalog" value="بی‌اهمیت"> بی‌اهمیت</label>
+                            </div>
+                        </td>
+                        <td><input type="text" name="note_catalog"></td>
+                    </tr>
+                    <tr>
+                        <td>فرم درخواست همکاری / استعلام قیمت</td>
+                        <td>
+                            <div class="importance-options">
+                                <label><input type="radio" name="importance_inquiry" value="ضروری"> ضروری</label>
+                                <label><input type="radio" name="importance_inquiry" value="مفید"> مفید</label>
+                                <label><input type="radio" name="importance_inquiry" value="بی‌اهمیت"> بی‌اهمیت</label>
+                            </div>
+                        </td>
+                        <td><input type="text" name="note_inquiry"></td>
+                    </tr>
+                    <tr>
+                        <td>مشخصات تماس مستقیم با تیم صادرات</td>
+                        <td>
+                            <div class="importance-options">
+                                <label><input type="radio" name="importance_contact" value="ضروری"> ضروری</label>
+                                <label><input type="radio" name="importance_contact" value="مفید"> مفید</label>
+                                <label><input type="radio" name="importance_contact" value="بی‌اهمیت"> بی‌اهمیت</label>
+                            </div>
+                        </td>
+                        <td><input type="text" name="note_contact"></td>
+                    </tr>
+                    <tr>
+                        <td>نقشه یا مسیر دسترسی</td>
+                        <td>
+                            <div class="importance-options">
+                                <label><input type="radio" name="importance_map" value="ضروری"> ضروری</label>
+                                <label><input type="radio" name="importance_map" value="مفید"> مفید</label>
+                                <label><input type="radio" name="importance_map" value="بی‌اهمیت"> بی‌اهمیت</label>
+                            </div>
+                        </td>
+                        <td><input type="text" name="note_map"></td>
+                    </tr>
+                    <tr>
+                        <td>صفحه سؤالات متداول (FAQ)</td>
+                        <td>
+                            <div class="importance-options">
+                                <label><input type="radio" name="importance_faq" value="ضروری"> ضروری</label>
+                                <label><input type="radio" name="importance_faq" value="مفید"> مفید</label>
+                                <label><input type="radio" name="importance_faq" value="بی‌اهمیت"> بی‌اهمیت</label>
+                            </div>
+                        </td>
+                        <td><input type="text" name="note_faq"></td>
+                    </tr>
+                    <tr>
+                        <td>بلاگ تخصصی یا مقالات</td>
+                        <td>
+                            <div class="importance-options">
+                                <label><input type="radio" name="importance_blog" value="ضروری"> ضروری</label>
+                                <label><input type="radio" name="importance_blog" value="مفید"> مفید</label>
+                                <label><input type="radio" name="importance_blog" value="بی‌اهمیت"> بی‌اهمیت</label>
+                            </div>
+                        </td>
+                        <td><input type="text" name="note_blog"></td>
+                    </tr>
+                    <tr>
+                        <td>اخبار شرکت / حضور در نمایشگاه‌ها</td>
+                        <td>
+                            <div class="importance-options">
+                                <label><input type="radio" name="importance_news" value="ضروری"> ضروری</label>
+                                <label><input type="radio" name="importance_news" value="مفید"> مفید</label>
+                                <label><input type="radio" name="importance_news" value="بی‌اهمیت"> بی‌اهمیت</label>
+                            </div>
+                        </td>
+                        <td><input type="text" name="note_news"></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h2>۴. ویژگی‌های فنی و عملکردی مورد انتظار</h2>
+            <div class="form-group">
+                <label for="showPrices">آیا لازم است محصولات با قیمت نمایش داده شوند؟ اگر بله، قیمت برای چه کسی؟ (عموم، نماینده، خریدار خاص)</label>
+                <textarea id="showPrices" name="showPrices"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="userArea">آیا نیاز به ناحیه کاربری / ورود برای مشتریان خاص هست؟ اگر بله، چه خدماتی قرار است در این بخش باشد؟</label>
+                <textarea id="userArea" name="userArea"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="crmIntegration">آیا نیاز به اتصال فرم‌ها به CRM یا ایمیل سازمانی دارید؟</label>
+                <textarea id="crmIntegration" name="crmIntegration"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="examples">آیا تجربه یا مثالی از سایت خارجی خوبی دارید که دوست دارید مشابهش باشیم؟ (لینک یا نام)</label>
+                <textarea id="examples" name="examples"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="improvements">چه مواردی در سایت فعلی‌مان (در صورت وجود) مشکل دارد یا نیاز به بهبود دارد؟</label>
+                <textarea id="improvements" name="improvements"></textarea>
+            </div>
+            
+            <h2>۵. اهداف اصلی سایت از نظر شما چیست؟</h2>
+            <p>هر مورد را از ۱ تا ۵ امتیاز دهید: ۱ = کم‌اهمیت، ۵ = بسیار مهم</p>
+            
+            <table class="rating-table">
+                <thead>
+                    <tr>
+                        <th>هدف</th>
+                        <th>امتیاز</th>
+                        <th>پیشنهادات برای تحقق</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>افزایش آگاهی از برند در بازارهای خارجی</td>
+                        <td>
+                            <div class="rating-options">
+                                <label><input type="radio" name="rating_awareness" value="1"> ۱</label>
+                                <label><input type="radio" name="rating_awareness" value="2"> ۲</label>
+                                <label><input type="radio" name="rating_awareness" value="3"> ۳</label>
+                                <label><input type="radio" name="rating_awareness" value="4"> ۴</label>
+                                <label><input type="radio" name="rating_awareness" value="5"> ۵</label>
+                            </div>
+                        </td>
+                        <td><input type="text" name="suggestion_awareness"></td>
+                    </tr>
+                    <tr>
+                        <td>جذب مشتری جدید بین‌المللی</td>
+                        <td>
+                            <div class="rating-options">
+                                <label><input type="radio" name="rating_acquisition" value="1"> ۱</label>
+                                <label><input type="radio" name="rating_acquisition" value="2"> ۲</label>
+                                <label><input type="radio" name="rating_acquisition" value="3"> ۳</label>
+                                <label><input type="radio" name="rating_acquisition" value="4"> ۴</label>
+                                <label><input type="radio" name="rating_acquisition" value="5"> ۵</label>
+                            </div>
+                        </td>
+                        <td><input type="text" name="suggestion_acquisition"></td>
+                    </tr>
+                    <tr>
+                        <td>ایجاد اعتماد در خریدار خارجی</td>
+                        <td>
+                            <div class="rating-options">
+                                <label><input type="radio" name="rating_trust" value="1"> ۱</label>
+                                <label><input type="radio" name="rating_trust" value="2"> ۲</label>
+                                <label><input type="radio" name="rating_trust" value="3"> ۳</label>
+                                <label><input type="radio" name="rating_trust" value="4"> ۴</label>
+                                <label><input type="radio" name="rating_trust" value="5"> ۵</label>
+                            </div>
+                        </td>
+                        <td><input type="text" name="suggestion_trust"></td>
+                    </tr>
+                    <tr>
+                        <td>ارائه اطلاعات فنی و تخصصی به مشتری</td>
+                        <td>
+                            <div class="rating-options">
+                                <label><input type="radio" name="rating_info" value="1"> ۱</label>
+                                <label><input type="radio" name="rating_info" value="2"> ۲</label>
+                                <label><input type="radio" name="rating_info" value="3"> ۳</label>
+                                <label><input type="radio" name="rating_info" value="4"> ۴</label>
+                                <label><input type="radio" name="rating_info" value="5"> ۵</label>
+                            </div>
+                        </td>
+                        <td><input type="text" name="suggestion_info"></td>
+                    </tr>
+                    <tr>
+                        <td>امکان تماس یا درخواست همکاری</td>
+                        <td>
+                            <div class="rating-options">
+                                <label><input type="radio" name="rating_contact" value="1"> ۱</label>
+                                <label><input type="radio" name="rating_contact" value="2"> ۲</label>
+                                <label><input type="radio" name="rating_contact" value="3"> ۳</label>
+                                <label><input type="radio" name="rating_contact" value="4"> ۴</label>
+                                <label><input type="radio" name="rating_contact" value="5"> ۵</label>
+                            </div>
+                        </td>
+                        <td><input type="text" name="suggestion_contact"></td>
+                    </tr>
+                    <tr>
+                        <td>سهولت در ارسال کاتالوگ یا فایل‌های دیگر</td>
+                        <td>
+                            <div class="rating-options">
+                                <label><input type="radio" name="rating_catalog" value="1"> ۱</label>
+                                <label><input type="radio" name="rating_catalog" value="2"> ۲</label>
+                                <label><input type="radio" name="rating_catalog" value="3"> ۳</label>
+                                <label><input type="radio" name="rating_catalog" value="4"> ۴</label>
+                                <label><input type="radio" name="rating_catalog" value="5"> ۵</label>
+                            </div>
+                        </td>
+                        <td><input type="text" name="suggestion_catalog"></td>
+                    </tr>
+                    <tr>
+                        <td>رقابت با برندهای خارجی در فضای وب</td>
+                        <td>
+                            <div class="rating-options">
+                                <label><input type="radio" name="rating_competition" value="1"> ۱</label>
+                                <label><input type="radio" name="rating_competition" value="2"> ۲</label>
+                                <label><input type="radio" name="rating_competition" value="3"> ۳</label>
+                                <label><input type="radio" name="rating_competition" value="4"> ۴</label>
+                                <label><input type="radio" name="rating_competition" value="5"> ۵</label>
+                            </div>
+                        </td>
+                        <td><input type="text" name="suggestion_competition"></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h2>۶. نظرات، پیشنهادها یا دغدغه‌های خاص شما</h2>
+            <div class="form-group">
+                <label for="otherComments">در مورد بازارهای هدف، محتوای حساس، طراحی، سرعت سایت، تحریم‌ها و...</label>
+                <textarea id="otherComments" name="otherComments"></textarea>
+            </div>
+            
+            <button type="submit" class="btn-submit">ارسال فرم</button>
+        </form>
+        
+        <div id="successMessage" class="success-message">
+            اطلاعات شما با موفقیت ثبت شد. با تشکر از همکاری شما.
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('exportForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Collection form data
+            const formData = new FormData(this);
+            const formEntries = {};
+            
+            for(let [key, value] of formData.entries()) {
+                formEntries[key] = value;
+            }
+            
+            // Convert form data to JSON
+            const jsonData = JSON.stringify(formEntries, null, 2);
+            
+            // Options for handling form submission:
+            
+            // Option 1: Save to file (download JSON)
+            const blob = new Blob([jsonData], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'export_department_needs_' + new Date().toISOString().split('T')[0] + '.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            
+            // Option 2: If you want to send via email using a service like FormSubmit
+            // Uncomment and modify this section to work with your email service
+            /*
+            fetch('https://formsubmit.co/YOUR_EMAIL_HERE', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: jsonData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                document.getElementById('successMessage').style.display = 'block';
+                document.getElementById('exportForm').reset();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('مشکلی در ارسال فرم رخ داده است. لطفا دوباره تلاش کنید.');
+            });
+            */
+            
+            // Show success message and reset form
+            document.getElementById('successMessage').style.display = 'block';
+            document.getElementById('exportForm').reset();
+            
+            // Hide success message after 5 seconds
+            setTimeout(() => {
+                document.getElementById('successMessage').style.display = 'none';
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
