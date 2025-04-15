@@ -29,275 +29,95 @@
             background: linear-gradient(135deg, var(--light-accent) 0%, #ffffff 60%, #d0dbd3 100%);
             background-attachment: fixed;
             margin: 0;
-            /* Increased top padding to account for fixed progress bar height */
-            padding: 80px 20px 40px 20px;
+            padding: 80px 20px 40px 20px; /* Keep padding for sticky progress bar */
             line-height: 1.6;
             position: relative;
             overflow-x: hidden;
         }
 
-        /* Background Pattern */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+        body::before { /* Background Pattern */
+            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath fill='%23004026' fill-opacity='0.05' d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z'%3E%3C/path%3E%3C/svg%3E");
-            z-index: -1;
-            opacity: 0.7;
+            z-index: -1; opacity: 0.7;
         }
 
-        /* --- Sticky Progress Bar Container --- */
+        /* Sticky Progress Bar Container */
         .progress-outer-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000; /* High z-index */
-            background-color: rgba(255, 255, 255, 0.9); /* Background for contrast */
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            box-shadow: 0 2px 5px rgba(0, 64, 38, 0.1); /* Subtle shadow */
-            padding: 10px 20px; /* Padding inside the sticky container */
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            background-color: rgba(255, 255, 255, 0.9); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+            box-shadow: 0 2px 5px rgba(0, 64, 38, 0.1); padding: 10px 20px;
         }
-        .progress-container {
-            max-width: 850px; /* Align with form container width */
-            margin: 0 auto; /* Center the progress bar itself */
-            /* Removed margin-top/bottom as it's handled by outer container padding */
-        }
+        .progress-container { max-width: 850px; margin: 0 auto; }
         .progress-bar {
-            width: 100%;
-            height: 10px; /* Adjusted height */
-            background-color: rgba(0, 64, 38, 0.1);
-            border-radius: 5px;
-            overflow: hidden;
-            position: relative;
-            box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+            width: 100%; height: 10px; background-color: rgba(0, 64, 38, 0.1);
+            border-radius: 5px; overflow: hidden; position: relative; box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
         }
         .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--company-color), #007a4f);
-            width: 0%;
-            border-radius: 5px;
-            transition: width 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            height: 100%; background: linear-gradient(90deg, var(--company-color), #007a4f);
+            width: 0%; border-radius: 5px; transition: width 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
             box-shadow: 0 0 8px rgba(0, 122, 79, 0.3);
         }
-        .progress-steps {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 8px; /* Reduced margin */
-            padding: 0;
-        }
-        .step {
-            position: relative;
-            text-align: center;
-            width: 16.666%;
-            cursor: default;
-        }
+        .progress-steps { display: flex; justify-content: space-between; margin-top: 8px; padding: 0; }
+        .step { position: relative; text-align: center; width: 16.666%; cursor: default; }
         .step-dot {
-            width: 20px; /* Slightly smaller */
-            height: 20px;
-            background-color: #ddd;
-            border: 2px solid #fff;
-            border-radius: 50%;
-            margin: 0 auto 5px;
-            position: relative;
-            z-index: 2;
-            transition: all 0.4s ease;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            width: 20px; height: 20px; background-color: #ddd; border: 2px solid #fff;
+            border-radius: 50%; margin: 0 auto 5px; position: relative; z-index: 2;
+            transition: all 0.4s ease; box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
         .step.active .step-dot {
-            background-color: var(--company-color);
-            border-color: var(--company-color);
-            transform: scale(1.1);
-            box-shadow: 0 0 0 3px rgba(0, 64, 38, 0.1), 0 2px 4px rgba(0,0,0,0.15);
+            background-color: var(--company-color); border-color: var(--company-color);
+            transform: scale(1.1); box-shadow: 0 0 0 3px rgba(0, 64, 38, 0.1), 0 2px 4px rgba(0,0,0,0.15);
         }
-        .progress-steps::before { /* Connecting line */
-            content: '';
-            position: absolute;
-            top: 12px; /* Adjust vertical alignment */
-            left: 8.333%;
-            right: 8.333%;
-            height: 3px; /* Thinner line */
-            background-color: #e0e0e0;
-            z-index: 1;
-            border-radius: 1.5px;
-        }
-        .step-label {
-            font-size: 0.8em;
-            color: #666;
-            transition: all 0.4s ease;
-        }
-        .step.active .step-label {
-            color: var(--company-color);
-            font-weight: bold;
-        }
-        /* --- End Progress Bar --- */
+        /* REMOVED .progress-steps::before rule */
+        .step-label { font-size: 0.8em; color: #666; transition: all 0.4s ease; }
+        .step.active .step-label { color: var(--company-color); font-weight: bold; }
+        /* End Progress Bar */
 
 
         .container { /* Main form content container */
-            max-width: 850px;
-            margin: 0 auto; /* Centered below progress bar */
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            padding: 40px 45px;
-            border-radius: 18px;
-            box-shadow: 0 10px 40px rgba(0, 64, 38, 0.2);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
+            max-width: 850px; margin: 0 auto; background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.25);
+            padding: 40px 45px; border-radius: 18px; box-shadow: 0 10px 40px rgba(0, 64, 38, 0.2);
+            text-align: center; position: relative; overflow: hidden;
         }
 
         /* Decorative corner shapes */
-        .container::before {
-            content: "";
-            position: absolute;
-            top: -60px;
-            right: -60px;
-            width: 120px;
-            height: 120px;
-            background-color: var(--company-color);
-            opacity: 0.08;
-            border-radius: 50%;
-            z-index: 0;
-        }
-        .container::after {
-            content: "";
-            position: absolute;
-            bottom: -40px;
-            left: -40px;
-            width: 100px;
-            height: 100px;
-            background-color: var(--company-color);
-            opacity: 0.08;
-            border-radius: 20px;
-            transform: rotate(30deg);
-            z-index: 0;
-        }
+        .container::before { content: ""; position: absolute; top: -60px; right: -60px; width: 120px; height: 120px; background-color: var(--company-color); opacity: 0.08; border-radius: 50%; z-index: 0; }
+        .container::after { content: ""; position: absolute; bottom: -40px; left: -40px; width: 100px; height: 100px; background-color: var(--company-color); opacity: 0.08; border-radius: 20px; transform: rotate(30deg); z-index: 0; }
 
-        #companyLogo {
-            display: block;
-            margin: 0 auto 35px auto;
-            max-width: 180px;
-            height: auto;
-            border-radius: 8px;
-            position: relative;
-            z-index: 1;
-            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
-            transition: transform 0.3s ease;
-        }
-        #companyLogo:hover {
-            transform: scale(1.05);
-        }
+        #companyLogo { display: block; margin: 0 auto 35px auto; max-width: 180px; height: auto; border-radius: 8px; position: relative; z-index: 1; filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1)); transition: transform 0.3s ease; }
+        #companyLogo:hover { transform: scale(1.05); }
 
-        h1 {
-            color: var(--company-color);
-            border-bottom: none;
-            padding-bottom: 15px;
-            margin-bottom: 20px;
-            font-size: 2.1em;
-            text-align: center;
-            position: relative;
-            z-index: 1;
-        }
-        h1::after {
-            content: "";
-            display: block;
-            width: 120px;
-            height: 4px;
-            background: linear-gradient(to right, transparent, var(--company-color), transparent);
-            margin: 18px auto 0;
-            border-radius: 2px;
-        }
+        h1 { color: var(--company-color); border-bottom: none; padding-bottom: 15px; margin-bottom: 20px; font-size: 2.1em; text-align: center; position: relative; z-index: 1; }
+        h1::after { content: ""; display: block; width: 120px; height: 4px; background: linear-gradient(to right, transparent, var(--company-color), transparent); margin: 18px auto 0; border-radius: 2px; }
 
-        h2 {
-            color: var(--company-color);
-            padding-bottom: 10px;
-            margin-top: 0;
-            margin-bottom: 30px;
-            font-size: 1.6em;
-            text-align: right;
-            position: relative;
-            z-index: 1;
-            border-bottom: 1px solid rgba(0, 64, 38, 0.2);
-        }
+        h2 { color: var(--company-color); padding-bottom: 10px; margin-top: 0; margin-bottom: 30px; font-size: 1.6em; text-align: right; position: relative; z-index: 1; border-bottom: 1px solid rgba(0, 64, 38, 0.2); }
 
-        .section-divider {
-            height: 2px;
-            background: linear-gradient(to right, rgba(255,255,255,0), rgba(0, 64, 38, 0.4), rgba(255,255,255,0));
-            margin: 50px auto 40px auto;
-            border-radius: 1px;
-            width: 80%;
-            opacity: 0.8;
-            position: relative;
-            z-index: 1;
-        }
+        .section-divider { height: 2px; background: linear-gradient(to right, rgba(255,255,255,0), rgba(0, 64, 38, 0.4), rgba(255,255,255,0)); margin: 50px auto 40px auto; border-radius: 1px; width: 80%; opacity: 0.8; position: relative; z-index: 1; }
 
-        p {
-           text-align: right;
-           margin-bottom: 20px;
-           color: #444;
-           position: relative;
-           z-index: 1;
-        }
-        .container > p:first-of-type {
-             font-size: 1.1em;
-             color: #333;
-             margin-bottom: 35px;
-             text-align: center;
-             padding: 12px 20px;
-             background-color: rgba(0, 64, 38, 0.04);
-             border-radius: 8px;
-             border-right: 4px solid var(--company-color);
-             border-left: 4px solid var(--company-color);
-        }
+        p { text-align: right; margin-bottom: 20px; color: #444; position: relative; z-index: 1; }
+        .container > p:first-of-type { font-size: 1.1em; color: #333; margin-bottom: 35px; text-align: center; padding: 12px 20px; background-color: rgba(0, 64, 38, 0.04); border-radius: 8px; border-right: 4px solid var(--company-color); border-left: 4px solid var(--company-color); }
 
-        .form-group {
-            margin-bottom: 28px;
-            text-align: right;
-            position: relative;
-            z-index: 1;
-        }
-        label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: bold;
-            color: #333;
-            text-align: right;
-            position: relative;
-        }
-        label.required::after {
-            font-family: "Font Awesome 6 Free";
-            content: "\f06a";
-            font-weight: 900;
-            margin-right: 8px;
-            font-size: 0.85em;
-            color: var(--company-color);
-            opacity: 0.8;
-            vertical-align: middle;
-        }
+        .form-group { margin-bottom: 28px; text-align: right; position: relative; z-index: 1; }
+        label { display: block; margin-bottom: 10px; font-weight: bold; color: #333; text-align: right; position: relative; }
+        label.required::after { font-family: "Font Awesome 6 Free"; content: "\f06a"; font-weight: 900; margin-right: 8px; font-size: 0.85em; color: var(--company-color); opacity: 0.8; vertical-align: middle; }
 
-        /* --- Input Field Styling (Invisible + Right Border) --- */
+        /* --- Input Field Styling (Rounded Rectangle) --- */
         input[type="text"],
         input[type="email"],
         input[type="tel"],
         textarea,
         select {
             width: 100%;
-            padding: 12px 15px 12px 5px; /* Adjusted padding for right border */
+            padding: 12px 15px; /* Standard padding */
             font-size: 16px;
-            background-color: transparent; /* Invisible background */
-            border: none; /* Remove default border */
-            border-bottom: 1px solid #ccc; /* Underline for definition */
-            border-right: 3px solid rgba(0, 64, 38, 0.25); /* Subtle right border when unfocused */
-            border-radius: 0; /* Sharp corners */
+            background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent background */
+            border: 1px solid #ccc; /* Default light gray border */
+            border-radius: 8px; /* Rounded corners */
             color: #333;
-            transition: all 0.3s ease;
-            box-shadow: none; /* Ensure no shadow initially */
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05); /* Subtle inset shadow */
+            /* Remove specific border-right from previous step */
         }
 
         input[type="text"]:focus,
@@ -306,12 +126,10 @@
         textarea:focus,
         select:focus {
             outline: none;
-            background-color: white; /* Make background visible */
-            border-bottom-color: var(--company-color); /* Green underline */
-            border-right-width: 4px; /* Thicker right border */
-            border-right-color: var(--company-color); /* Green right border */
-            /* Add a glow effect */
-            box-shadow: 0 0 10px rgba(0, 64, 38, 0.2);
+            border-color: var(--company-color); /* Green border on focus */
+            background-color: white; /* Opaque background on focus */
+            box-shadow: 0 0 0 3px rgba(0, 64, 38, 0.15), 0 1px 3px rgba(0,0,0,0.05); /* Green glow + inset shadow */
+            /* Remove specific border-right styles from previous step */
         }
 
         textarea {
@@ -321,132 +139,54 @@
         /* --- End Input Field Styling --- */
 
 
-        /* Table Styling (keeping it readable) */
+        /* Table Styling */
         .rating-table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            margin-bottom: 30px;
-            background-color: rgba(255, 255, 255, 0.6);
-            border-radius: 10px;
-            overflow: hidden;
-            border: 1px solid #e8e8e8;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.04);
+            width: 100%; border-collapse: separate; border-spacing: 0; margin-bottom: 30px;
+            background-color: rgba(255, 255, 255, 0.6); border-radius: 10px; overflow: hidden;
+            border: 1px solid #e8e8e8; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.04);
         }
-        .rating-table th, .rating-table td {
-            padding: 14px 18px;
-            border-bottom: 1px solid #eee;
-            text-align: right;
-            vertical-align: middle;
-        }
-        .rating-table tbody tr:hover {
-            background-color: rgba(0, 64, 38, 0.03);
-        }
+        .rating-table th, .rating-table td { padding: 14px 18px; border-bottom: 1px solid #eee; text-align: right; vertical-align: middle; }
+        .rating-table tbody tr:hover { background-color: rgba(0, 64, 38, 0.03); }
         .rating-table tbody tr:last-child td { border-bottom: none; }
-        .rating-table th {
-            background-color: rgba(0, 64, 38, 0.09);
-            font-weight: bold;
-            color: var(--company-color);
-            border-bottom: 1px solid rgba(0, 64, 38, 0.15);
-        }
-        /* Apply input style within table */
+        .rating-table th { background-color: rgba(0, 64, 38, 0.09); font-weight: bold; color: var(--company-color); border-bottom: 1px solid rgba(0, 64, 38, 0.15); }
+        /* Apply input style within table - slightly simplified */
         .rating-table td input[type="text"] {
-             background-color: rgba(255, 255, 255, 0.85); /* Keep slight background in table */
-             border-radius: 4px; /* Slight radius for table inputs */
-             border-bottom-width: 1px; /* Consistent bottom border */
-             border-right-width: 3px;
-             padding: 10px 12px; /* Adjust padding */
+             background-color: rgba(255, 255, 255, 0.9); /* More opaque in table */
+             border-radius: 6px; /* Slightly less rounded */
+             padding: 10px 12px;
+             box-shadow: none; /* Remove inner shadow */
         }
         .rating-table td input[type="text"]:focus {
-            background-color: white;
-            border-right-width: 4px;
+            box-shadow: 0 0 0 2px rgba(0, 64, 38, 0.15); /* Simpler glow */
         }
 
 
         /* Radio Buttons Styling (Keeping previous enhancements) */
-        .importance-options, .rating-options {
-            text-align: right;
-            padding-top: 5px;
-        }
-        .importance-options label, .rating-options label {
-            display: inline-block;
-            margin-left: 20px;
-            font-weight: normal;
-            cursor: pointer;
-            color: #555;
-            position: relative;
-            padding-right: 28px;
-            transition: all 0.2s ease;
-            line-height: 20px;
-        }
-        .importance-options label:hover, .rating-options label:hover {
-            color: var(--company-color);
-        }
-        .importance-options input[type="radio"],
-        .rating-options input[type="radio"] {
-            position: absolute; opacity: 0; cursor: pointer; height: 0; width: 0;
-        }
-        .importance-options label::before,
-        .rating-options label::before {
-            content: ''; position: absolute; right: 0; top: 50%; transform: translateY(-50%);
-            width: 20px; height: 20px; border: 2px solid #bbb; border-radius: 50%;
-            background-color: #fff; transition: all 0.3s ease;
-        }
-        .importance-options input[type="radio"]:checked + label::before,
-        .rating-options input[type="radio"]:checked + label::before {
-            border-color: var(--company-color); background-color: var(--light-accent);
-        }
-        .importance-options label::after,
-        .rating-options label::after {
-            content: ''; position: absolute; right: 6px; top: 50%; transform: translateY(-50%) scale(0);
-            width: 10px; height: 10px; border-radius: 50%; background-color: var(--company-color);
-            transition: all 0.3s ease;
-        }
-        .importance-options input[type="radio"]:checked + label::after,
-        .rating-options input[type="radio"]:checked + label::after {
-             transform: translateY(-50%) scale(1);
-        }
+        .importance-options, .rating-options { text-align: right; padding-top: 5px; }
+        .importance-options label, .rating-options label { display: inline-block; margin-left: 20px; font-weight: normal; cursor: pointer; color: #555; position: relative; padding-right: 28px; transition: all 0.2s ease; line-height: 20px; }
+        .importance-options label:hover, .rating-options label:hover { color: var(--company-color); }
+        .importance-options input[type="radio"], .rating-options input[type="radio"] { position: absolute; opacity: 0; cursor: pointer; height: 0; width: 0; }
+        .importance-options label::before, .rating-options label::before { content: ''; position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; border: 2px solid #bbb; border-radius: 50%; background-color: #fff; transition: all 0.3s ease; }
+        .importance-options input[type="radio"]:checked + label::before, .rating-options input[type="radio"]:checked + label::before { border-color: var(--company-color); background-color: var(--light-accent); }
+        .importance-options label::after, .rating-options label::after { content: ''; position: absolute; right: 6px; top: 50%; transform: translateY(-50%) scale(0); width: 10px; height: 10px; border-radius: 50%; background-color: var(--company-color); transition: all 0.3s ease; }
+        .importance-options input[type="radio"]:checked + label::after, .rating-options input[type="radio"]:checked + label::after { transform: translateY(-50%) scale(1); }
 
 
         /* Submit Button Styling */
-        .btn-submit {
-            background-color: var(--company-color); color: white; border: none;
-            padding: 16px 30px; font-size: 18px; font-weight: bold; cursor: pointer;
-            border-radius: 10px; width: 100%; margin-top: 25px; transition: all 0.3s ease;
-            position: relative; overflow: hidden; z-index: 1;
-            box-shadow: 0 4px 10px rgba(0, 64, 38, 0.2);
-        }
-        .btn-submit::before {
-            content: ""; position: absolute; top: 0; left: -150%; width: 80%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
-            transform: skewX(-25deg); transition: left 0.7s ease;
-        }
-        .btn-submit:hover {
-            background-color: #005a36; transform: translateY(-3px);
-            box-shadow: 0 7px 18px rgba(0, 64, 38, 0.3);
-        }
+        .btn-submit { background-color: var(--company-color); color: white; border: none; padding: 16px 30px; font-size: 18px; font-weight: bold; cursor: pointer; border-radius: 10px; width: 100%; margin-top: 25px; transition: all 0.3s ease; position: relative; overflow: hidden; z-index: 1; box-shadow: 0 4px 10px rgba(0, 64, 38, 0.2); }
+        .btn-submit::before { content: ""; position: absolute; top: 0; left: -150%; width: 80%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent); transform: skewX(-25deg); transition: left 0.7s ease; }
+        .btn-submit:hover { background-color: #005a36; transform: translateY(-3px); box-shadow: 0 7px 18px rgba(0, 64, 38, 0.3); }
         .btn-submit:hover::before { left: 120%; }
         .btn-submit:active { transform: translateY(-1px); box-shadow: 0 4px 10px rgba(0, 64, 38, 0.2); }
 
 
         /* Success Message Styling */
-        .success-message {
-            padding: 18px 25px; background-color: rgba(223, 240, 216, 0.9);
-            border: 1px solid #b7e3ae; color: #2a5b2f; border-radius: 10px;
-            margin-top: 35px; display: none; text-align: center;
-            position: relative; z-index: 1; animation: fadeInUp 0.6s ease-out; font-weight: bold;
-        }
+        .success-message { padding: 18px 25px; background-color: rgba(223, 240, 216, 0.9); border: 1px solid #b7e3ae; color: #2a5b2f; border-radius: 10px; margin-top: 35px; display: none; text-align: center; position: relative; z-index: 1; animation: fadeInUp 0.6s ease-out; font-weight: bold; }
         .success-message i { margin-left: 10px; font-size: 1.1em; vertical-align: middle; }
 
 
         /* Scroll-to-top Indicator */
-        .scroll-indicator {
-            position: fixed; bottom: 25px; right: 25px; width: 45px; height: 45px;
-            border-radius: 50%; background-color: var(--company-color); color: white;
-            display: flex; justify-content: center; align-items: center; cursor: pointer;
-            box-shadow: 0 5px 18px rgba(0, 64, 38, 0.3); opacity: 0; visibility: hidden;
-            transition: all 0.4s ease; z-index: 1000;
-        }
+        .scroll-indicator { position: fixed; bottom: 25px; right: 25px; width: 45px; height: 45px; border-radius: 50%; background-color: var(--company-color); color: white; display: flex; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 5px 18px rgba(0, 64, 38, 0.3); opacity: 0; visibility: hidden; transition: all 0.4s ease; z-index: 1000; }
         .scroll-indicator.visible { opacity: 0.9; visibility: visible; }
         .scroll-indicator:hover { opacity: 1; transform: scale(1.1); }
         .scroll-indicator i { animation: bounce 2s infinite ease-in-out; }
@@ -457,18 +197,18 @@
 
         /* Responsive Adjustments */
         @media (max-width: 768px) {
-            body { padding-top: 90px; padding-left: 10px; padding-right: 10px; } /* Adjust top padding for potentially wrapped progress labels */
+            body { padding-top: 90px; padding-left: 10px; padding-right: 10px; }
             .progress-outer-container { padding: 8px 15px; }
             .step-label { display: none; }
-            .progress-steps::before { display: none; }
+            /* Removed .progress-steps::before */
             .step-dot { width: 18px; height: 18px; border-width: 2px;}
             .container { padding: 25px 20px; border-radius: 12px; }
             h1 { font-size: 1.8em; } h1::after { width: 80px; height: 3px;}
             h2 { font-size: 1.4em; }
-            input[type="text"], input[type="email"], input[type="tel"], textarea, select { padding: 10px 12px 10px 5px; }
-             .importance-options label, .rating-options label { margin-left: 15px; padding-right: 24px;}
-             .importance-options label::before, .rating-options label::before {width: 16px; height: 16px;}
-              .importance-options label::after, .rating-options label::after {width: 8px; height: 8px; right: 4px;}
+            input[type="text"], input[type="email"], input[type="tel"], textarea, select { padding: 10px 12px; border-radius: 6px; } /* Adjust padding/radius */
+            .importance-options label, .rating-options label { margin-left: 15px; padding-right: 24px;}
+            .importance-options label::before, .rating-options label::before {width: 16px; height: 16px;}
+            .importance-options label::after, .rating-options label::after {width: 8px; height: 8px; right: 4px;}
             .btn-submit { padding: 14px 20px; font-size: 17px; }
             .scroll-indicator { bottom: 15px; right: 15px; width: 40px; height: 40px; }
         }
@@ -559,7 +299,7 @@
                     <tr><th>بخش</th><th>اهمیت</th><th>توضیحات بیشتر (در صورت نیاز)</th></tr>
                 </thead>
                 <tbody>
-                    <tr>
+                     <tr>
                         <td>معرفی شرکت</td>
                         <td>
                             <div class="importance-options">
@@ -625,7 +365,7 @@
                         </td>
                         <td><input type="text" name="note_map"></td>
                     </tr>
-                     <tr>
+                    <tr>
                         <td>صفحه سؤالات متداول (FAQ)</td>
                         <td>
                             <div class="importance-options">
@@ -636,7 +376,7 @@
                         </td>
                         <td><input type="text" name="note_faq"></td>
                     </tr>
-                     <tr>
+                    <tr>
                         <td>بلاگ تخصصی یا مقالات</td>
                         <td>
                             <div class="importance-options">
@@ -647,7 +387,7 @@
                         </td>
                         <td><input type="text" name="note_blog"></td>
                     </tr>
-                     <tr>
+                    <tr>
                         <td>اخبار شرکت / حضور در نمایشگاه‌ها</td>
                         <td>
                             <div class="importance-options">
@@ -812,8 +552,24 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
 
-            // Scroll-to-Top Button Logic
             const scrollTopBtn = document.getElementById('scrollTopBtn');
+            if (scrollTopBtn) { /* Scroll-to-Top Logic */ }
+
+            const progressFill = document.getElementById('progressFill');
+            const steps = document.querySelectorAll('#progressSteps .step');
+            const sections = document.querySelectorAll('h2[id^="section"]');
+            const numSections = sections.length;
+            let currentActiveSection = 0;
+            if (progressFill && steps.length > 0 && sections.length > 0) { /* Progress Bar Logic */ }
+            else { console.warn("Progress bar elements not found."); }
+
+            const exportForm = document.getElementById('exportForm');
+            if (exportForm) { /* Form Submission Logic */ }
+            else { console.error("Form element #exportForm not found."); }
+
+            // --- DETAILED JS LOGIC (Copied from previous correct version) ---
+
+            // Scroll-to-Top Button Logic
             if (scrollTopBtn) {
                 window.addEventListener('scroll', () => {
                     scrollTopBtn.classList.toggle('visible', window.scrollY > 300);
@@ -821,74 +577,77 @@
                 scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
             }
 
-            // Progress Bar Logic (Intersection Observer)
-            const progressFill = document.getElementById('progressFill');
-            const steps = document.querySelectorAll('#progressSteps .step');
-            const sections = document.querySelectorAll('h2[id^="section"]');
-            const numSections = sections.length;
-            let currentActiveSection = 0; // Track the *currently* most prominent section
-
+             // Progress Bar Logic (Intersection Observer)
             if (progressFill && steps.length > 0 && sections.length > 0) {
                 const observerCallback = (entries) => {
-                    let maxRatio = -1; // Track the highest intersection ratio
-
+                    let visibleSections = [];
                     entries.forEach(entry => {
-                        const sectionId = entry.target.id;
-                        const sectionNumber = parseInt(sectionId.replace('section', ''), 10);
-
-                        // Update based on the entry with the highest intersection ratio
-                        if (entry.isIntersecting && entry.intersectionRatio > maxRatio) {
-                             maxRatio = entry.intersectionRatio;
-                             currentActiveSection = sectionNumber;
+                        if (entry.isIntersecting) {
+                            visibleSections.push({
+                                id: entry.target.id,
+                                ratio: entry.intersectionRatio,
+                                // Calculate position relative to viewport top for sorting
+                                topPos: entry.boundingClientRect.top
+                            });
                         }
-                        // Additional logic if needed when element leaves viewport completely
-                        // else if (!entry.isIntersecting) { ... }
                     });
 
-                     // Update progress bar fill based on the current active section
-                    const progressPercent = ((currentActiveSection - 1) / (numSections -1)) * 100; // Progress based on sections completed
-                    progressFill.style.width = `${Math.min(100, Math.max(0,progressPercent))}%`; // Clamp between 0-100
+                    if (visibleSections.length > 0) {
+                        // Sort visible sections by how close they are to the top of the viewport
+                        visibleSections.sort((a, b) => a.topPos - b.topPos);
+                        // The most prominent section is the first one in the sorted list
+                        const mostVisibleSectionId = visibleSections[0].id;
+                        currentActiveSection = parseInt(mostVisibleSectionId.replace('section', ''), 10);
+                    }
+                    // If no section is intersecting, we might want to keep the last active one
+                    // or reset based on scroll position; keeping last active for now.
 
-                    // Update active step indicators based on the currently active section
+                    // Update progress bar fill based on the current active section index
+                    // Progress represents sections *completed* or currently active
+                    const progressPercent = ((currentActiveSection -1) / (numSections - 1)) * 100;
+                    progressFill.style.width = `${Math.min(100, Math.max(0, progressPercent))}%`;
+
+                    // Update active step indicators
                     steps.forEach((step, index) => {
-                        step.classList.toggle('active', (index + 1) === currentActiveSection);
+                         step.classList.toggle('active', (index + 1) === currentActiveSection);
                     });
                 };
 
                 const observerOptions = {
                     root: null,
-                    rootMargin: '0px 0px -50% 0px', // Trigger when section is entering upper half of viewport
-                    threshold: 0 // Trigger as soon as any part enters/leaves margin
+                    rootMargin: '0px 0px -40% 0px', // Adjust margin: trigger when section enters top 60% of viewport
+                    threshold: 0.01 // Trigger even if only a small part is visible within the margin
                 };
 
                 const observer = new IntersectionObserver(observerCallback, observerOptions);
                 sections.forEach(section => observer.observe(section));
 
-                 // Initial check for the very first section
-                 if (sections[0]) {
-                     const rect = sections[0].getBoundingClientRect();
-                      if (rect.top <= window.innerHeight && rect.bottom >=0) { // Check if initially visible
-                           currentActiveSection = 1;
-                           steps[0].classList.add('active');
-                      }
-                 }
+                 // Initial check very slightly delayed
+                 setTimeout(() => {
+                    let initialSection = 0;
+                     sections.forEach((section, index) => {
+                         const rect = section.getBoundingClientRect();
+                         // Check if top part of section is near the top of viewport
+                         if (rect.top >= 0 && rect.top < window.innerHeight * 0.6) {
+                              if (initialSection === 0) initialSection = index + 1; // Take the first one found near top
+                         }
+                     });
+                     currentActiveSection = initialSection || 1; // Default to 1 if none found initially
+                     const initialProgressPercent = ((currentActiveSection-1) / (numSections-1)) * 100;
+                     progressFill.style.width = `${Math.min(100, Math.max(0, initialProgressPercent))}%`;
+                     steps.forEach((step, index) => step.classList.toggle('active', (index + 1) === currentActiveSection));
+                }, 150);
 
-            } else {
-                console.warn("Progress bar elements not found.");
             }
 
             // Form Submission Logic (Formspree)
-            const exportForm = document.getElementById('exportForm');
             if (exportForm) {
                 exportForm.addEventListener('submit', function(e) {
                     e.preventDefault();
-                    // (Keeping the existing fetch logic from the previous step)
-                    // ... your fetch code ...
                     const formData = new FormData(this);
                     const formObject = Object.fromEntries(formData.entries());
                     const jsonData = JSON.stringify(formObject);
-
-                    const formspreeURL = 'https://formspree.io/f/xaneklpz'; // Your Formspree URL
+                    const formspreeURL = 'https://formspree.io/f/xaneklpz';
                     const submitButton = this.querySelector('.btn-submit');
                     const successMessage = document.getElementById('successMessage');
                     const originalButtonText = submitButton.textContent;
@@ -903,12 +662,10 @@
                         body: jsonData
                     })
                     .then(response => {
-                        if (response.ok || (response.status >= 300 && response.status < 400) ) {
-                             return Promise.resolve(response);
-                        } else {
-                            return response.json().then(data => {
-                                throw new Error(data.errors ? data.errors.map(e => e.message).join(', ') : 'Form submission failed');
-                            }).catch(err => { throw new Error('Form submission failed with status: ' + response.status); });
+                        if (response.ok || (response.status >= 300 && response.status < 400) ) { return Promise.resolve(response); }
+                        else {
+                            return response.json().then(data => { throw new Error(data.errors ? data.errors.map(e => e.message).join(', ') : 'Form submission failed'); })
+                            .catch(err => { throw new Error('Form submission failed with status: ' + response.status); });
                         }
                     })
                     .then(() => {
@@ -916,19 +673,20 @@
                         successMessage.style.display = 'block';
                         exportForm.reset();
                         window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-                        currentActiveSection = 0; // Reset progress
+                        // Reset progress bar visually
+                        currentActiveSection = 1; // Reset to first section
                         progressFill.style.width = '0%';
                         steps.forEach((step, index) => step.classList.toggle('active', index === 0));
 
                         setTimeout(() => {
                             successMessage.style.transition = 'opacity 0.5s ease';
                             successMessage.style.opacity = '0';
-                             setTimeout(() => {
-                                 successMessage.style.display = 'none';
-                                 successMessage.style.opacity = '1';
-                                 successMessage.style.transition = '';
-                             }, 500);
-                         }, 7000);
+                            setTimeout(() => {
+                                successMessage.style.display = 'none';
+                                successMessage.style.opacity = '1';
+                                successMessage.style.transition = '';
+                            }, 500);
+                        }, 7000);
                     })
                     .catch(error => {
                         console.error('Error!', error.message);
@@ -939,9 +697,8 @@
                         submitButton.textContent = originalButtonText;
                     });
                 });
-            } else {
-                 console.error("Form element #exportForm not found.");
             }
+
         });
     </script>
 
