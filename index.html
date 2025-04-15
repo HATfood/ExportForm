@@ -6,10 +6,12 @@
     <title>فرم نیازسنجی طراحی سایت بین‌المللی - واحد صادرات</title>
     <!-- Vazir Font -->
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" type="text/css" />
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         :root {
-            --company-color: #004026; /* Define company color as CSS variable */
-            --light-accent: #eaf0eb; /* A very light green/grey accent */
+            --company-color: #004026;
+            --light-accent: #eaf0eb;
         }
 
         * {
@@ -18,98 +20,161 @@
             margin: 0;
             padding: 0;
         }
+
         body {
-            /* Subtle gradient background - adjust colors/angle as desired */
             background: linear-gradient(135deg, var(--light-accent) 0%, #ffffff 60%, #d0dbd3 100%);
-            background-attachment: fixed; /* Keep gradient fixed during scroll */
+            background-attachment: fixed;
             margin: 0;
-            padding: 40px 20px; /* Add more padding around container */
+            padding: 60px 20px 40px 20px; /* Increased top padding for progress bar */
             line-height: 1.6;
+            position: relative; /* Needed for pseudo-element */
         }
+
+        /* Subtle Background Pattern */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* SVG pattern with company color, low opacity */
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 100 100"><rect fill="none" width="100" height="100"/><path fill="%23004026" fill-opacity="0.04" d="M 12 12 L 88 12 L 88 88 L 12 88 L 12 12 M 0 0 L 100 0 L 100 100 L 0 100 L 0 0 M 40 40 L 60 40 L 60 60 L 40 60 L 40 40" /></svg>');
+            z-index: -1; /* Place behind content */
+            background-repeat: repeat;
+        }
+
+        /* Progress Bar */
+        #progressBarContainer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px; /* Slightly thicker */
+            background-color: rgba(0, 64, 38, 0.1); /* Light background */
+            z-index: 1000; /* Ensure it's on top */
+        }
+        #progressBarFill {
+            height: 100%;
+            width: 0%; /* Initial width */
+            background-color: var(--company-color);
+            transition: width 0.25s ease-out; /* Smooth transition */
+            border-radius: 0 4px 4px 0; /* Rounded edge (adjust if progress bar looks wrong in RTL) */
+        }
+
 
         .container {
-            max-width: 850px; /* Slightly wider */
+            max-width: 850px;
             margin: 0 auto;
-            /* Frosted Glass Effect */
-            background: rgba(255, 255, 255, 0.85); /* Semi-transparent background */
-            backdrop-filter: blur(10px); /* The blur effect */
-            -webkit-backdrop-filter: blur(10px); /* Safari prefix */
-            border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border */
-            padding: 40px; /* Increased padding */
-            border-radius: 15px; /* More rounded corners */
-            box-shadow: 0 8px 32px 0 rgba(0, 64, 38, 0.15); /* Softer shadow related to company color */
-            text-align: center; /* Center logo and H1 */
+            background: rgba(255, 255, 255, 0.88); /* Slightly less transparent */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            padding: 45px;
+            border-radius: 18px; /* Slightly more rounded */
+            box-shadow: 0 10px 35px 0 rgba(0, 64, 38, 0.18);
+            text-align: center;
         }
 
-        /* Style for the logo image */
         #companyLogo {
-            display: block; /* Needed for margin:auto */
-            margin: 0 auto 30px auto; /* Center horizontally, add space below */
-            max-width: 200px; /* Adjust as needed */
-            height: auto; /* Maintain aspect ratio */
-            border-radius: 8px; /* Optional: slight rounding on logo */
+            display: block;
+            margin: 0 auto 35px auto;
+            max-width: 180px; /* Adjusted size */
+            height: auto;
+            border-radius: 8px;
         }
 
         h1 {
             color: var(--company-color);
-            border-bottom: none; /* Remove border for cleaner look */
+            border-bottom: none;
             padding-bottom: 15px;
-            margin-bottom: 15px;
-            font-size: 2em; /* Larger H1 */
-            text-align: center; /* Ensure H1 is centered */
+            margin-bottom: 20px;
+            font-size: 2.1em;
+            text-align: center;
         }
 
+        /* Section Headers with Icons */
         h2 {
             color: var(--company-color);
-            border-bottom: 1px solid #ddd; /* Thinner border */
-            padding-bottom: 8px;
-            margin-top: 35px; /* More space above H2 */
-            margin-bottom: 25px; /* More space below H2 */
-            font-size: 1.5em;
-            text-align: right; /* Keep form section titles aligned */
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+            margin-top: 0; /* Removed top margin, handled by divider */
+            margin-bottom: 30px;
+            font-size: 1.6em;
+            text-align: right;
+            position: relative; /* For icon positioning if needed */
         }
 
+        /* Base Icon Styling */
+        h2::before {
+            font-family: "Font Awesome 5 Free"; /* Specify Font Awesome */
+            font-weight: 900; /* Use solid icons */
+            margin-left: 12px; /* Space between icon and text (RTL) */
+            color: var(--company-color);
+            font-size: 0.9em; /* Slightly smaller icon */
+            vertical-align: middle; /* Align icon better */
+        }
+
+        /* Specific Icons per Section */
+        h2#section1::before { content: "\f05a"; } /* fas fa-info-circle */
+        h2#section2::before { content: "\f0c0"; } /* fas fa-users */
+        h2#section3::before { content: "\f15c"; } /* fas fa-file-alt */
+        h2#section4::before { content: "\f0ad"; } /* fas fa-wrench */
+        h2#section5::before { content: "\f140"; } /* fas fa-bullseye */
+        h2#section6::before { content: "\f086"; } /* fas fa-comments */
+
+
         p {
-           text-align: right; /* Keep paragraphs aligned */
+           text-align: right;
            margin-bottom: 20px;
            color: #555;
         }
-        .container > p:first-of-type { /* Style the intro paragraph */
+        .container > p:first-of-type {
              font-size: 1.1em;
              color: #333;
-             margin-bottom: 30px;
-             text-align: center; /* Center the intro paragraph */
+             margin-bottom: 35px;
+             text-align: center;
         }
 
-
         .form-group {
-            margin-bottom: 25px; /* Increased spacing */
-            text-align: right; /* Ensure form groups align right */
+            margin-bottom: 25px;
+            text-align: right;
         }
         label {
             display: block;
             margin-bottom: 8px;
             font-weight: bold;
-            color: #333; /* Darker label text */
+            color: #333;
             text-align: right;
         }
+
+        /* Enhanced Form Field Styling */
         input[type="text"],
-        input[type="email"], /* Added just in case */
-        input[type="tel"],   /* Added just in case */
+        input[type="email"],
+        input[type="tel"],
         textarea,
         select {
             width: 100%;
-            padding: 12px 15px; /* Slightly more padding */
-            border: 1px solid #ccc; /* Slightly darker border */
-            border-radius: 8px; /* More rounded inputs */
+            padding: 12px 15px;
+            border: 1px solid #ccc;
+            border-right: 4px solid transparent; /* Start with transparent border for animation (RTL) */
+            border-radius: 8px;
             font-size: 16px;
-            background-color: rgba(255, 255, 255, 0.7); /* Slightly transparent inputs */
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            background-color: rgba(255, 255, 255, 0.75);
+            /* Include transform and border-color in transition */
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, border-right-color 0.3s ease, transform 0.3s ease;
         }
-        input:focus, textarea:focus, select:focus {
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="tel"]:focus,
+        textarea:focus,
+        select:focus {
             outline: none;
-            border-color: var(--company-color); /* Highlight with company color */
-            box-shadow: 0 0 0 3px rgba(0, 64, 38, 0.15); /* Subtle glow */
+            border-color: var(--company-color); /* Main border highlight */
+            border-right-color: var(--company-color); /* Animate right border color (RTL) */
+            box-shadow: 0 0 0 3px rgba(0, 64, 38, 0.1); /* Subtle glow */
+            transform: translateX(-3px); /* Slight shift effect (RTL) */
+            background-color: rgba(255, 255, 255, 0.9); /* Slightly more opaque on focus */
         }
         textarea {
             min-height: 120px;
@@ -121,28 +186,26 @@
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 30px;
-            background-color: rgba(255, 255, 255, 0.5); /* Make table slightly transparent */
+            background-color: rgba(255, 255, 255, 0.6);
             border-radius: 8px;
-            overflow: hidden; /* Clip content to rounded corners */
-            border: 1px solid #eee; /* Overall table border */
+            overflow: hidden;
+            border: 1px solid #eee;
         }
         .rating-table th, .rating-table td {
             padding: 12px 15px;
-            border: none; /* Remove internal cell borders */
-            border-bottom: 1px solid #eee; /* Use horizontal lines instead */
+            border: none;
+            border-bottom: 1px solid #eee;
             text-align: right;
-            vertical-align: middle; /* Align content vertically */
+            vertical-align: middle;
         }
-         .rating-table tbody tr:last-child td {
-            border-bottom: none; /* Remove border from last row */
-        }
+         .rating-table tbody tr:last-child td { border-bottom: none; }
         .rating-table th {
-            background-color: rgba(0, 64, 38, 0.08); /* Light company color background */
+            background-color: rgba(0, 64, 38, 0.08);
             font-weight: bold;
             color: var(--company-color);
         }
         .rating-table td input[type="text"] {
-             background-color: rgba(255, 255, 255, 0.8); /* Ensure inputs in table are readable */
+             background-color: rgba(255, 255, 255, 0.85);
         }
 
         /* Radio Buttons Styling */
@@ -152,38 +215,47 @@
         }
         .importance-options label, .rating-options label {
             display: inline-block;
-            margin-right: 0; /* Remove default margin */
-            margin-left: 15px; /* Add spacing to the left (since RTL) */
+            margin-right: 0;
+            margin-left: 18px; /* Increased spacing */
             font-weight: normal;
             cursor: pointer;
             color: #555;
+            transition: color 0.3s ease;
         }
+         .importance-options label:hover, .rating-options label:hover {
+            color: var(--company-color); /* Highlight label on hover */
+         }
         .importance-options input, .rating-options input {
             width: auto;
-            margin-left: 5px;
+            margin-left: 6px; /* Increased space */
             vertical-align: middle;
+            cursor: pointer;
         }
-        /* Optional: Custom Radio Button Appearance */
-        .rating-options input[type="radio"] {
+        /* Custom Radio Appearance */
+        .rating-options input[type="radio"],
+        .importance-options input[type="radio"] {
             appearance: none;
             -webkit-appearance: none;
-            width: 16px;
-            height: 16px;
-            border: 2px solid #ccc;
+            width: 18px; /* Slightly larger */
+            height: 18px;
+            border: 2px solid #bbb; /* Slightly darker */
             border-radius: 50%;
             display: inline-block;
             position: relative;
-            top: 3px; /* Adjust vertical alignment */
-            margin-left: 5px;
+            top: 4px;
+            margin-left: 6px;
             cursor: pointer;
-            transition: border-color 0.3s ease;
+            transition: border-color 0.3s ease, background-color 0.3s ease;
         }
-         .rating-options input[type="radio"]:checked {
+         .rating-options input[type="radio"]:checked,
+         .importance-options input[type="radio"]:checked {
             border-color: var(--company-color);
+            background-color: rgba(255, 255, 255, 0.8); /* Add a slight fill */
          }
-        .rating-options input[type="radio"]:checked::after {
+        .rating-options input[type="radio"]:checked::after,
+        .importance-options input[type="radio"]:checked::after {
             content: '';
-            width: 8px;
+            width: 8px; /* Smaller dot */
             height: 8px;
             background-color: var(--company-color);
             border-radius: 50%;
@@ -193,54 +265,78 @@
             transform: translate(-50%, -50%);
         }
 
-
         .btn-submit {
-            background-color: var(--company-color);
+            background: var(--company-color);
+            background: linear-gradient(to bottom, var(--company-color), #005a36); /* Subtle gradient */
             color: white;
             border: none;
-            padding: 15px 25px; /* Larger padding */
-            font-size: 18px; /* Larger font size */
-            font-weight: bold; /* Bolder text */
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
             cursor: pointer;
             border-radius: 8px;
             width: 100%;
-            margin-top: 20px; /* Space above button */
-            transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition */
+            margin-top: 25px;
+            transition: all 0.3s ease; /* Smooth transition */
+            box-shadow: 0 2px 5px rgba(0, 64, 38, 0.2);
         }
         .btn-submit:hover {
-            background-color: #005a36; /* Slightly darker shade on hover */
-            transform: translateY(-2px); /* Slight lift effect */
-            box-shadow: 0 4px 15px rgba(0, 64, 38, 0.2);
+            background: linear-gradient(to bottom, #005a36, #004d2f); /* Darker gradient on hover */
+            transform: translateY(-3px) scale(1.01); /* Lift and slightly grow */
+            box-shadow: 0 6px 15px rgba(0, 64, 38, 0.3); /* Enhanced shadow */
         }
+        .btn-submit:active {
+             transform: translateY(-1px); /* Press down effect */
+             box-shadow: 0 3px 10px rgba(0, 64, 38, 0.2);
+        }
+
         .required:after {
             content: " *";
-            color: #d9534f; /* Standard red color */
-            font-weight: bold; /* Make asterisk bolder */
+            color: #d9534f;
+            font-weight: bold;
             margin-right: 2px;
         }
         .success-message {
-            padding: 15px 20px;
-            background-color: #dff0d8;
-            border: 1px solid #d6e9c6;
-            color: #3c763d;
-            border-radius: 8px; /* Match other elements */
+            padding: 18px 25px; /* More padding */
+            background-color: #eaf0eb; /* Use light accent */
+            border: 1px solid var(--company-color); /* Border with company color */
+            color: var(--company-color); /* Text with company color */
+            border-radius: 8px;
             margin-top: 30px;
             display: none;
-            text-align: center; /* Center success message */
+            text-align: center;
+            font-weight: bold;
         }
+
+        /* Visual Section Divider */
+        .section-divider {
+            height: 4px; /* Slightly thicker */
+            background: linear-gradient(to right, rgba(255,255,255,0), var(--company-color), rgba(255,255,255,0));
+            margin: 50px auto 40px auto; /* More vertical margin, center */
+            border-radius: 50%;
+            width: 70%; /* Don't span full width */
+            opacity: 0.6; /* Make it less prominent */
+        }
+
     </style>
 </head>
 <body>
+
+    <!-- Progress Bar -->
+    <div id="progressBarContainer">
+        <div id="progressBarFill"></div>
+    </div>
+
     <div class="container">
-        <!-- Use CSS for sizing/centering, remove inline attributes -->
         <img id="companyLogo" src="logo_mark.jpg" alt="لوگوی شرکت">
 
         <h1>فرم نیازسنجی طراحی سایت بین‌المللی - واحد صادرات</h1>
         <p><strong>هدف:</strong> شناسایی دقیق نیازهای واحد صادرات برای طراحی یک وب‌سایت بین‌المللی کارآمد، متناسب با مخاطبان خارجی، با تمرکز بر فروش، ارتباط و برندینگ جهانی.</p>
 
+        <!-- Start Form -->
         <form id="exportForm">
-            <!-- Form sections remain the same -->
-            <h2>۱. اطلاعات پایه واحد صادرات</h2>
+
+            <h2 id="section1">۱. اطلاعات پایه واحد صادرات</h2>
             <div class="form-group">
                 <label for="fullName" class="required">نام و سمت پرکننده فرم</label>
                 <input type="text" id="fullName" name="fullName" required>
@@ -262,7 +358,9 @@
                 <textarea id="futureMarkets" name="futureMarkets"></textarea>
             </div>
 
-            <h2>۲. مخاطبان هدف وب‌سایت</h2>
+            <div class="section-divider"></div>
+
+            <h2 id="section2">۲. مخاطبان هدف وب‌سایت</h2>
              <div class="form-group">
                 <label for="targetAudience">مشتریان اصلی خارجی چه کسانی هستند؟ (واردکننده، پخش‌کننده، فروشگاه‌ها، مصرف‌کننده نهایی و ...)</label>
                 <textarea id="targetAudience" name="targetAudience"></textarea>
@@ -276,121 +374,30 @@
                 <textarea id="languages" name="languages"></textarea>
             </div>
 
-            <h2>۳. محتوای مورد نیاز در سایت</h2>
-            <p>لطفاً مشخص کنید که وجود هر یک از بخش‌های زیر برای شما چقدر اهمیت دارد:</p>
+            <div class="section-divider"></div>
 
+            <h2 id="section3">۳. محتوای مورد نیاز در سایت</h2>
+            <p>لطفاً مشخص کنید که وجود هر یک از بخش‌های زیر برای شما چقدر اهمیت دارد:</p>
             <table class="rating-table">
                  <thead>
-                    <tr>
-                        <th>بخش</th>
-                        <th>اهمیت</th>
-                        <th>توضیحات بیشتر (در صورت نیاز)</th>
-                    </tr>
+                    <tr><th>بخش</th><th>اهمیت</th><th>توضیحات بیشتر (در صورت نیاز)</th></tr>
                 </thead>
                  <tbody>
-                    <tr>
-                        <td>معرفی شرکت</td>
-                        <td>
-                            <div class="importance-options">
-                                <label><input type="radio" name="importance_company" value="ضروری"> ضروری</label>
-                                <label><input type="radio" name="importance_company" value="مفید"> مفید</label>
-                                <label><input type="radio" name="importance_company" value="بی‌اهمیت"> بی‌اهمیت</label>
-                            </div>
-                        </td>
-                        <td><input type="text" name="note_company"></td>
-                    </tr>
-                     <tr>
-                        <td>معرفی محصولات و دسته‌بندی‌ها</td>
-                        <td>
-                            <div class="importance-options">
-                                <label><input type="radio" name="importance_products" value="ضروری"> ضروری</label>
-                                <label><input type="radio" name="importance_products" value="مفید"> مفید</label>
-                                <label><input type="radio" name="importance_products" value="بی‌اهمیت"> بی‌اهمیت</label>
-                            </div>
-                        </td>
-                        <td><input type="text" name="note_products"></td>
-                    </tr>
-                    <tr>
-                        <td>دریافت کاتالوگ PDF یا فایل‌های مرتبط</td>
-                        <td>
-                            <div class="importance-options">
-                                <label><input type="radio" name="importance_catalog" value="ضروری"> ضروری</label>
-                                <label><input type="radio" name="importance_catalog" value="مفید"> مفید</label>
-                                <label><input type="radio" name="importance_catalog" value="بی‌اهمیت"> بی‌اهمیت</label>
-                            </div>
-                        </td>
-                        <td><input type="text" name="note_catalog"></td>
-                    </tr>
-                    <tr>
-                        <td>فرم درخواست همکاری / استعلام قیمت</td>
-                        <td>
-                            <div class="importance-options">
-                                <label><input type="radio" name="importance_inquiry" value="ضروری"> ضروری</label>
-                                <label><input type="radio" name="importance_inquiry" value="مفید"> مفید</label>
-                                <label><input type="radio" name="importance_inquiry" value="بی‌اهمیت"> بی‌اهمیت</label>
-                            </div>
-                        </td>
-                        <td><input type="text" name="note_inquiry"></td>
-                    </tr>
-                    <tr>
-                        <td>مشخصات تماس مستقیم با تیم صادرات</td>
-                        <td>
-                            <div class="importance-options">
-                                <label><input type="radio" name="importance_contact" value="ضروری"> ضروری</label>
-                                <label><input type="radio" name="importance_contact" value="مفید"> مفید</label>
-                                <label><input type="radio" name="importance_contact" value="بی‌اهمیت"> بی‌اهمیت</label>
-                            </div>
-                        </td>
-                        <td><input type="text" name="note_contact"></td>
-                    </tr>
-                    <tr>
-                        <td>نقشه یا مسیر دسترسی</td>
-                        <td>
-                            <div class="importance-options">
-                                <label><input type="radio" name="importance_map" value="ضروری"> ضروری</label>
-                                <label><input type="radio" name="importance_map" value="مفید"> مفید</label>
-                                <label><input type="radio" name="importance_map" value="بی‌اهمیت"> بی‌اهمیت</label>
-                            </div>
-                        </td>
-                        <td><input type="text" name="note_map"></td>
-                    </tr>
-                    <tr>
-                        <td>صفحه سؤالات متداول (FAQ)</td>
-                        <td>
-                            <div class="importance-options">
-                                <label><input type="radio" name="importance_faq" value="ضروری"> ضروری</label>
-                                <label><input type="radio" name="importance_faq" value="مفید"> مفید</label>
-                                <label><input type="radio" name="importance_faq" value="بی‌اهمیت"> بی‌اهمیت</label>
-                            </div>
-                        </td>
-                        <td><input type="text" name="note_faq"></td>
-                    </tr>
-                    <tr>
-                        <td>بلاگ تخصصی یا مقالات</td>
-                        <td>
-                            <div class="importance-options">
-                                <label><input type="radio" name="importance_blog" value="ضروری"> ضروری</label>
-                                <label><input type="radio" name="importance_blog" value="مفید"> مفید</label>
-                                <label><input type="radio" name="importance_blog" value="بی‌اهمیت"> بی‌اهمیت</label>
-                            </div>
-                        </td>
-                        <td><input type="text" name="note_blog"></td>
-                    </tr>
-                    <tr>
-                        <td>اخبار شرکت / حضور در نمایشگاه‌ها</td>
-                        <td>
-                            <div class="importance-options">
-                                <label><input type="radio" name="importance_news" value="ضروری"> ضروری</label>
-                                <label><input type="radio" name="importance_news" value="مفید"> مفید</label>
-                                <label><input type="radio" name="importance_news" value="بی‌اهمیت"> بی‌اهمیت</label>
-                            </div>
-                        </td>
-                        <td><input type="text" name="note_news"></td>
-                    </tr>
+                    <tr><td>معرفی شرکت</td><td><div class="importance-options"><label><input type="radio" name="importance_company" value="ضروری"> ضروری</label><label><input type="radio" name="importance_company" value="مفید"> مفید</label><label><input type="radio" name="importance_company" value="بی‌اهمیت"> بی‌اهمیت</label></div></td><td><input type="text" name="note_company"></td></tr>
+                    <tr><td>معرفی محصولات و دسته‌بندی‌ها</td><td><div class="importance-options"><label><input type="radio" name="importance_products" value="ضروری"> ضروری</label><label><input type="radio" name="importance_products" value="مفید"> مفید</label><label><input type="radio" name="importance_products" value="بی‌اهمیت"> بی‌اهمیت</label></div></td><td><input type="text" name="note_products"></td></tr>
+                    <tr><td>دریافت کاتالوگ PDF یا فایل‌های مرتبط</td><td><div class="importance-options"><label><input type="radio" name="importance_catalog" value="ضروری"> ضروری</label><label><input type="radio" name="importance_catalog" value="مفید"> مفید</label><label><input type="radio" name="importance_catalog" value="بی‌اهمیت"> بی‌اهمیت</label></div></td><td><input type="text" name="note_catalog"></td></tr>
+                    <tr><td>فرم درخواست همکاری / استعلام قیمت</td><td><div class="importance-options"><label><input type="radio" name="importance_inquiry" value="ضروری"> ضروری</label><label><input type="radio" name="importance_inquiry" value="مفید"> مفید</label><label><input type="radio" name="importance_inquiry" value="بی‌اهمیت"> بی‌اهمیت</label></div></td><td><input type="text" name="note_inquiry"></td></tr>
+                    <tr><td>مشخصات تماس مستقیم با تیم صادرات</td><td><div class="importance-options"><label><input type="radio" name="importance_contact" value="ضروری"> ضروری</label><label><input type="radio" name="importance_contact" value="مفید"> مفید</label><label><input type="radio" name="importance_contact" value="بی‌اهمیت"> بی‌اهمیت</label></div></td><td><input type="text" name="note_contact"></td></tr>
+                    <tr><td>نقشه یا مسیر دسترسی</td><td><div class="importance-options"><label><input type="radio" name="importance_map" value="ضروری"> ضروری</label><label><input type="radio" name="importance_map" value="مفید"> مفید</label><label><input type="radio" name="importance_map" value="بی‌اهمیت"> بی‌اهمیت</label></div></td><td><input type="text" name="note_map"></td></tr>
+                    <tr><td>صفحه سؤالات متداول (FAQ)</td><td><div class="importance-options"><label><input type="radio" name="importance_faq" value="ضروری"> ضروری</label><label><input type="radio" name="importance_faq" value="مفید"> مفید</label><label><input type="radio" name="importance_faq" value="بی‌اهمیت"> بی‌اهمیت</label></div></td><td><input type="text" name="note_faq"></td></tr>
+                    <tr><td>بلاگ تخصصی یا مقالات</td><td><div class="importance-options"><label><input type="radio" name="importance_blog" value="ضروری"> ضروری</label><label><input type="radio" name="importance_blog" value="مفید"> مفید</label><label><input type="radio" name="importance_blog" value="بی‌اهمیت"> بی‌اهمیت</label></div></td><td><input type="text" name="note_blog"></td></tr>
+                    <tr><td>اخبار شرکت / حضور در نمایشگاه‌ها</td><td><div class="importance-options"><label><input type="radio" name="importance_news" value="ضروری"> ضروری</label><label><input type="radio" name="importance_news" value="مفید"> مفید</label><label><input type="radio" name="importance_news" value="بی‌اهمیت"> بی‌اهمیت</label></div></td><td><input type="text" name="note_news"></td></tr>
                  </tbody>
             </table>
 
-             <h2>۴. ویژگی‌های فنی و عملکردی مورد انتظار</h2>
+            <div class="section-divider"></div>
+
+            <h2 id="section4">۴. ویژگی‌های فنی و عملکردی مورد انتظار</h2>
             <div class="form-group">
                 <label for="showPrices">آیا لازم است محصولات با قیمت نمایش داده شوند؟ اگر بله، قیمت برای چه کسی؟ (عموم، نماینده، خریدار خاص)</label>
                 <textarea id="showPrices" name="showPrices"></textarea>
@@ -412,113 +419,26 @@
                 <textarea id="improvements" name="improvements"></textarea>
             </div>
 
-            <h2>۵. اهداف اصلی سایت از نظر شما چیست؟</h2>
-            <p>هر مورد را از ۱ تا ۵ امتیاز دهید: ۱ = کم‌اهمیت، ۵ = بسیار مهم</p>
+            <div class="section-divider"></div>
 
+            <h2 id="section5">۵. اهداف اصلی سایت از نظر شما چیست؟</h2>
+            <p>هر مورد را از ۱ تا ۵ امتیاز دهید: ۱ = کم‌اهمیت، ۵ = بسیار مهم</p>
             <table class="rating-table">
-                <thead>
-                    <tr>
-                        <th>هدف</th>
-                        <th>امتیاز</th>
-                        <th>پیشنهادات برای تحقق</th>
-                    </tr>
-                </thead>
+                <thead><tr><th>هدف</th><th>امتیاز</th><th>پیشنهادات برای تحقق</th></tr></thead>
                  <tbody>
-                    <tr>
-                        <td>افزایش آگاهی از برند در بازارهای خارجی</td>
-                        <td>
-                            <div class="rating-options">
-                                <label><input type="radio" name="rating_awareness" value="1"> ۱</label>
-                                <label><input type="radio" name="rating_awareness" value="2"> ۲</label>
-                                <label><input type="radio" name="rating_awareness" value="3"> ۳</label>
-                                <label><input type="radio" name="rating_awareness" value="4"> ۴</label>
-                                <label><input type="radio" name="rating_awareness" value="5"> ۵</label>
-                            </div>
-                        </td>
-                        <td><input type="text" name="suggestion_awareness"></td>
-                    </tr>
-                    <tr>
-                        <td>جذب مشتری جدید بین‌المللی</td>
-                        <td>
-                            <div class="rating-options">
-                                <label><input type="radio" name="rating_acquisition" value="1"> ۱</label>
-                                <label><input type="radio" name="rating_acquisition" value="2"> ۲</label>
-                                <label><input type="radio" name="rating_acquisition" value="3"> ۳</label>
-                                <label><input type="radio" name="rating_acquisition" value="4"> ۴</label>
-                                <label><input type="radio" name="rating_acquisition" value="5"> ۵</label>
-                            </div>
-                        </td>
-                        <td><input type="text" name="suggestion_acquisition"></td>
-                    </tr>
-                    <tr>
-                        <td>ایجاد اعتماد در خریدار خارجی</td>
-                        <td>
-                            <div class="rating-options">
-                                <label><input type="radio" name="rating_trust" value="1"> ۱</label>
-                                <label><input type="radio" name="rating_trust" value="2"> ۲</label>
-                                <label><input type="radio" name="rating_trust" value="3"> ۳</label>
-                                <label><input type="radio" name="rating_trust" value="4"> ۴</label>
-                                <label><input type="radio" name="rating_trust" value="5"> ۵</label>
-                            </div>
-                        </td>
-                        <td><input type="text" name="suggestion_trust"></td>
-                    </tr>
-                    <tr>
-                        <td>ارائه اطلاعات فنی و تخصصی به مشتری</td>
-                        <td>
-                            <div class="rating-options">
-                                <label><input type="radio" name="rating_info" value="1"> ۱</label>
-                                <label><input type="radio" name="rating_info" value="2"> ۲</label>
-                                <label><input type="radio" name="rating_info" value="3"> ۳</label>
-                                <label><input type="radio" name="rating_info" value="4"> ۴</label>
-                                <label><input type="radio" name="rating_info" value="5"> ۵</label>
-                            </div>
-                        </td>
-                        <td><input type="text" name="suggestion_info"></td>
-                    </tr>
-                    <tr>
-                        <td>امکان تماس یا درخواست همکاری</td>
-                        <td>
-                            <div class="rating-options">
-                                <label><input type="radio" name="rating_contact" value="1"> ۱</label>
-                                <label><input type="radio" name="rating_contact" value="2"> ۲</label>
-                                <label><input type="radio" name="rating_contact" value="3"> ۳</label>
-                                <label><input type="radio" name="rating_contact" value="4"> ۴</label>
-                                <label><input type="radio" name="rating_contact" value="5"> ۵</label>
-                            </div>
-                        </td>
-                        <td><input type="text" name="suggestion_contact"></td>
-                    </tr>
-                    <tr>
-                        <td>سهولت در ارسال کاتالوگ یا فایل‌های دیگر</td>
-                        <td>
-                            <div class="rating-options">
-                                <label><input type="radio" name="rating_catalog" value="1"> ۱</label>
-                                <label><input type="radio" name="rating_catalog" value="2"> ۲</label>
-                                <label><input type="radio" name="rating_catalog" value="3"> ۳</label>
-                                <label><input type="radio" name="rating_catalog" value="4"> ۴</label>
-                                <label><input type="radio" name="rating_catalog" value="5"> ۵</label>
-                            </div>
-                        </td>
-                        <td><input type="text" name="suggestion_catalog"></td>
-                    </tr>
-                    <tr>
-                        <td>رقابت با برندهای خارجی در فضای وب</td>
-                        <td>
-                            <div class="rating-options">
-                                <label><input type="radio" name="rating_competition" value="1"> ۱</label>
-                                <label><input type="radio" name="rating_competition" value="2"> ۲</label>
-                                <label><input type="radio" name="rating_competition" value="3"> ۳</label>
-                                <label><input type="radio" name="rating_competition" value="4"> ۴</label>
-                                <label><input type="radio" name="rating_competition" value="5"> ۵</label>
-                            </div>
-                        </td>
-                        <td><input type="text" name="suggestion_competition"></td>
-                    </tr>
+                    <tr><td>افزایش آگاهی از برند در بازارهای خارجی</td><td><div class="rating-options"><label><input type="radio" name="rating_awareness" value="1"> ۱</label><label><input type="radio" name="rating_awareness" value="2"> ۲</label><label><input type="radio" name="rating_awareness" value="3"> ۳</label><label><input type="radio" name="rating_awareness" value="4"> ۴</label><label><input type="radio" name="rating_awareness" value="5"> ۵</label></div></td><td><input type="text" name="suggestion_awareness"></td></tr>
+                    <tr><td>جذب مشتری جدید بین‌المللی</td><td><div class="rating-options"><label><input type="radio" name="rating_acquisition" value="1"> ۱</label><label><input type="radio" name="rating_acquisition" value="2"> ۲</label><label><input type="radio" name="rating_acquisition" value="3"> ۳</label><label><input type="radio" name="rating_acquisition" value="4"> ۴</label><label><input type="radio" name="rating_acquisition" value="5"> ۵</label></div></td><td><input type="text" name="suggestion_acquisition"></td></tr>
+                    <tr><td>ایجاد اعتماد در خریدار خارجی</td><td><div class="rating-options"><label><input type="radio" name="rating_trust" value="1"> ۱</label><label><input type="radio" name="rating_trust" value="2"> ۲</label><label><input type="radio" name="rating_trust" value="3"> ۳</label><label><input type="radio" name="rating_trust" value="4"> ۴</label><label><input type="radio" name="rating_trust" value="5"> ۵</label></div></td><td><input type="text" name="suggestion_trust"></td></tr>
+                    <tr><td>ارائه اطلاعات فنی و تخصصی به مشتری</td><td><div class="rating-options"><label><input type="radio" name="rating_info" value="1"> ۱</label><label><input type="radio" name="rating_info" value="2"> ۲</label><label><input type="radio" name="rating_info" value="3"> ۳</label><label><input type="radio" name="rating_info" value="4"> ۴</label><label><input type="radio" name="rating_info" value="5"> ۵</label></div></td><td><input type="text" name="suggestion_info"></td></tr>
+                    <tr><td>امکان تماس یا درخواست همکاری</td><td><div class="rating-options"><label><input type="radio" name="rating_contact" value="1"> ۱</label><label><input type="radio" name="rating_contact" value="2"> ۲</label><label><input type="radio" name="rating_contact" value="3"> ۳</label><label><input type="radio" name="rating_contact" value="4"> ۴</label><label><input type="radio" name="rating_contact" value="5"> ۵</label></div></td><td><input type="text" name="suggestion_contact"></td></tr>
+                    <tr><td>سهولت در ارسال کاتالوگ یا فایل‌های دیگر</td><td><div class="rating-options"><label><input type="radio" name="rating_catalog" value="1"> ۱</label><label><input type="radio" name="rating_catalog" value="2"> ۲</label><label><input type="radio" name="rating_catalog" value="3"> ۳</label><label><input type="radio" name="rating_catalog" value="4"> ۴</label><label><input type="radio" name="rating_catalog" value="5"> ۵</label></div></td><td><input type="text" name="suggestion_catalog"></td></tr>
+                    <tr><td>رقابت با برندهای خارجی در فضای وب</td><td><div class="rating-options"><label><input type="radio" name="rating_competition" value="1"> ۱</label><label><input type="radio" name="rating_competition" value="2"> ۲</label><label><input type="radio" name="rating_competition" value="3"> ۳</label><label><input type="radio" name="rating_competition" value="4"> ۴</label><label><input type="radio" name="rating_competition" value="5"> ۵</label></div></td><td><input type="text" name="suggestion_competition"></td></tr>
                  </tbody>
             </table>
 
-            <h2>۶. نظرات، پیشنهادها یا دغدغه‌های خاص شما</h2>
+            <div class="section-divider"></div>
+
+            <h2 id="section6">۶. نظرات، پیشنهادها یا دغدغه‌های خاص شما</h2>
             <div class="form-group">
                 <label for="otherComments">در مورد بازارهای هدف، محتوای حساس، طراحی، سرعت سایت، تحریم‌ها و...</label>
                 <textarea id="otherComments" name="otherComments"></textarea>
@@ -526,14 +446,48 @@
 
             <button type="submit" class="btn-submit">ارسال فرم</button>
         </form>
+        <!-- End Form -->
 
         <div id="successMessage" class="success-message">
+            <i class="fas fa-check-circle" style="margin-left: 8px;"></i> <!-- Added success icon -->
             اطلاعات شما با موفقیت ثبت شد. با تشکر از همکاری شما.
         </div>
-    </div>
+    </div><!-- End Container -->
 
-    <!-- Your existing Javascript for form submission -->
+    <!-- JavaScript -->
     <script>
+        // --- Progress Bar Logic ---
+        const progressBarFill = document.getElementById('progressBarFill');
+        const formElement = document.getElementById('exportForm'); // Or use .container
+
+        function updateProgressBar() {
+            // Calculate based on overall page scroll for simplicity
+            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+            const clientHeight = document.documentElement.clientHeight || window.innerHeight;
+
+            // Calculate the scrollable distance
+            const scrollableHeight = scrollHeight - clientHeight;
+
+            if (scrollableHeight <= 0) {
+                progressBarFill.style.width = '100%'; // Full if page isn't scrollable
+                return;
+            }
+
+            // Calculate progress percentage
+            let scrollPercent = (scrollTop / scrollableHeight) * 100;
+            scrollPercent = Math.min(100, Math.max(0, scrollPercent)); // Clamp between 0 and 100
+
+            progressBarFill.style.width = scrollPercent + '%';
+        }
+
+        // Update on scroll and page load/resize
+        window.addEventListener('scroll', updateProgressBar);
+        window.addEventListener('resize', updateProgressBar);
+        document.addEventListener('DOMContentLoaded', updateProgressBar); // Initial calculation
+
+
+        // --- Form Submission Logic (Formspree) ---
         document.getElementById('exportForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
@@ -542,6 +496,13 @@
             const jsonData = JSON.stringify(formObject);
 
             const formspreeURL = 'https://formspree.io/f/xaneklpz'; // Your Formspree URL
+            const submitButton = this.querySelector('.btn-submit');
+            const originalButtonText = submitButton.textContent;
+
+            // Indicate processing
+            submitButton.disabled = true;
+            submitButton.textContent = 'در حال ارسال...';
+
 
             fetch(formspreeURL, {
                 method: 'POST',
@@ -552,35 +513,46 @@
                 body: jsonData
             })
             .then(response => {
+                submitButton.disabled = false; // Re-enable button
+                submitButton.textContent = originalButtonText;
+
                 if (response.ok) {
                     console.log('Success with Formspree!');
                     document.getElementById('successMessage').style.display = 'block';
                     document.getElementById('exportForm').reset();
-                    window.scrollTo(0, document.body.scrollHeight); // Scroll to bottom to show message
+                    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); // Scroll smoothly to bottom
                 } else {
-                    // Try to get error details from Formspree response
                     response.json().then(data => {
                       if (Object.hasOwn(data, 'errors')) {
                         throw new Error(data["errors"].map(error => error["message"]).join(", "));
                       } else {
                         throw new Error('Formspree submission failed with status: ' + response.status);
                       }
-                    }).catch(jsonError => { // Catch error if response is not JSON or .json() fails
-                        throw new Error('Formspree submission failed with status: ' + response.status);
+                    }).catch(jsonError => {
+                        throw new Error('Formspree submission failed with status: ' + response.status + '. Could not parse error details.');
                     });
                 }
             })
             .catch(error => {
+                submitButton.disabled = false; // Re-enable button on error too
+                submitButton.textContent = originalButtonText;
                 console.error('Error!', error.message);
                 alert('مشکلی در ارسال فرم رخ داده است. لطفا دوباره تلاش کنید.\nError: ' + error.message);
             })
             .finally(() => {
+                 // Hide success message after 7 seconds (longer duration)
                  setTimeout(() => {
                     const successMsg = document.getElementById('successMessage');
-                    if (successMsg) { // Check if element exists before trying to hide
-                         successMsg.style.display = 'none';
+                    if (successMsg) {
+                         // Fade out effect (optional)
+                         successMsg.style.transition = 'opacity 0.5s ease';
+                         successMsg.style.opacity = '0';
+                         setTimeout(() => {
+                             successMsg.style.display = 'none';
+                             successMsg.style.opacity = '1'; // Reset opacity
+                         }, 500); // Wait for fade out
                     }
-                 }, 5000);
+                 }, 7000);
             });
         });
     </script>
