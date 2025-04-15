@@ -6,8 +6,8 @@
     <title>فرم نیازسنجی طراحی سایت بین‌المللی - واحد صادرات</title>
     <!-- Vazir Font -->
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" type="text/css" />
-    <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Font Awesome for icons (needed for required field indicator & scroll-top) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --company-color: #004026;
@@ -21,16 +21,21 @@
             padding: 0;
         }
 
+        html {
+             scroll-behavior: smooth; /* Smooth scrolling for scroll-to-top */
+        }
+
         body {
             background: linear-gradient(135deg, var(--light-accent) 0%, #ffffff 60%, #d0dbd3 100%);
             background-attachment: fixed;
             margin: 0;
-            padding: 60px 20px 40px 20px; /* Increased top padding for progress bar */
+            padding: 40px 20px;
             line-height: 1.6;
-            position: relative; /* Needed for pseudo-element */
+            position: relative;
+            overflow-x: hidden; /* Prevent horizontal scroll */
         }
 
-        /* Subtle Background Pattern */
+        /* Background Pattern */
         body::before {
             content: "";
             position: fixed;
@@ -38,50 +43,67 @@
             left: 0;
             width: 100%;
             height: 100%;
-            /* SVG pattern with company color, low opacity */
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 100 100"><rect fill="none" width="100" height="100"/><path fill="%23004026" fill-opacity="0.04" d="M 12 12 L 88 12 L 88 88 L 12 88 L 12 12 M 0 0 L 100 0 L 100 100 L 0 100 L 0 0 M 40 40 L 60 40 L 60 60 L 40 60 L 40 40" /></svg>');
-            z-index: -1; /* Place behind content */
-            background-repeat: repeat;
+            /* Using the pattern from the snippet */
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath fill='%23004026' fill-opacity='0.05' d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z'%3E%3C/path%3E%3C/svg%3E");
+            z-index: -1;
+            opacity: 0.7; /* Slightly more visible */
         }
-
-        /* Progress Bar */
-        #progressBarContainer {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 8px; /* Slightly thicker */
-            background-color: rgba(0, 64, 38, 0.1); /* Light background */
-            z-index: 1000; /* Ensure it's on top */
-        }
-        #progressBarFill {
-            height: 100%;
-            width: 0%; /* Initial width */
-            background-color: var(--company-color);
-            transition: width 0.25s ease-out; /* Smooth transition */
-            border-radius: 0 4px 4px 0; /* Rounded edge (adjust if progress bar looks wrong in RTL) */
-        }
-
 
         .container {
             max-width: 850px;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.88); /* Slightly less transparent */
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.9); /* Less transparent for readability */
+            backdrop-filter: blur(8px); /* Slightly less blur */
+            -webkit-backdrop-filter: blur(8px);
             border: 1px solid rgba(255, 255, 255, 0.25);
-            padding: 45px;
-            border-radius: 18px; /* Slightly more rounded */
-            box-shadow: 0 10px 35px 0 rgba(0, 64, 38, 0.18);
+            padding: 40px 45px; /* Adjusted padding */
+            border-radius: 18px;
+            box-shadow: 0 10px 40px rgba(0, 64, 38, 0.2); /* Enhanced shadow */
             text-align: center;
+            position: relative; /* Needed for pseudo-elements */
+            overflow: hidden; /* Clip decorative elements */
+        }
+
+        /* Decorative corner shapes */
+        .container::before {
+            content: "";
+            position: absolute;
+            top: -60px;
+            right: -60px;
+            width: 120px;
+            height: 120px;
+            background-color: var(--company-color);
+            opacity: 0.08; /* Subtle opacity */
+            border-radius: 50%;
+            z-index: 0; /* Behind content */
+        }
+        .container::after {
+            content: "";
+            position: absolute;
+            bottom: -40px;
+            left: -40px;
+            width: 100px;
+            height: 100px;
+            background-color: var(--company-color);
+            opacity: 0.08;
+            border-radius: 20px; /* Less sharp rotation */
+            transform: rotate(30deg);
+            z-index: 0;
         }
 
         #companyLogo {
             display: block;
             margin: 0 auto 35px auto;
-            max-width: 180px; /* Adjusted size */
+            max-width: 180px;
             height: auto;
             border-radius: 8px;
+            position: relative;
+            z-index: 1; /* Above decorations */
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+            transition: transform 0.3s ease;
+        }
+        #companyLogo:hover {
+            transform: scale(1.05);
         }
 
         h1 {
@@ -91,122 +113,234 @@
             margin-bottom: 20px;
             font-size: 2.1em;
             text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        /* Decorative underline for H1 */
+        h1::after {
+            content: "";
+            display: block;
+            width: 120px; /* Wider */
+            height: 4px;  /* Thicker */
+            background: linear-gradient(to right, transparent, var(--company-color), transparent);
+            margin: 18px auto 0;
+            border-radius: 2px;
         }
 
-        /* Section Headers with Icons */
         h2 {
             color: var(--company-color);
-            border-bottom: 1px solid #ddd;
+            /* Removed icon padding */
             padding-bottom: 10px;
-            margin-top: 0; /* Removed top margin, handled by divider */
+            margin-top: 0; /* Reset margin, handled by divider */
             margin-bottom: 30px;
             font-size: 1.6em;
             text-align: right;
-            position: relative; /* For icon positioning if needed */
+            position: relative;
+            z-index: 1;
+            border-bottom: 1px solid rgba(0, 64, 38, 0.2); /* Subtle border */
         }
+        /* No h2::before icon styles */
 
-        /* Base Icon Styling */
-        h2::before {
-            font-family: "Font Awesome 5 Free"; /* Specify Font Awesome */
-            font-weight: 900; /* Use solid icons */
-            margin-left: 12px; /* Space between icon and text (RTL) */
-            color: var(--company-color);
-            font-size: 0.9em; /* Slightly smaller icon */
-            vertical-align: middle; /* Align icon better */
+        .section-divider {
+            height: 2px; /* Thinner divider */
+            background: linear-gradient(to right, rgba(255,255,255,0), rgba(0, 64, 38, 0.4), rgba(255,255,255,0));
+            margin: 50px auto 40px auto;
+            border-radius: 1px;
+            width: 80%;
+            opacity: 0.8;
+            position: relative;
+            z-index: 1;
         }
-
-        /* Specific Icons per Section */
-        h2#section1::before { content: "\f05a"; } /* fas fa-info-circle */
-        h2#section2::before { content: "\f0c0"; } /* fas fa-users */
-        h2#section3::before { content: "\f15c"; } /* fas fa-file-alt */
-        h2#section4::before { content: "\f0ad"; } /* fas fa-wrench */
-        h2#section5::before { content: "\f140"; } /* fas fa-bullseye */
-        h2#section6::before { content: "\f086"; } /* fas fa-comments */
-
 
         p {
            text-align: right;
            margin-bottom: 20px;
-           color: #555;
+           color: #444; /* Slightly darker text */
+           position: relative;
+           z-index: 1;
         }
+        /* Intro paragraph styling */
         .container > p:first-of-type {
              font-size: 1.1em;
              color: #333;
              margin-bottom: 35px;
              text-align: center;
+             padding: 12px 20px;
+             background-color: rgba(0, 64, 38, 0.04);
+             border-radius: 8px;
+             border-right: 4px solid var(--company-color);
+             border-left: 4px solid var(--company-color);
         }
 
+        /* --- Enhanced Progress Bar --- */
+        .progress-container {
+            margin: 35px 0 45px 0; /* Adjusted margins */
+            position: relative;
+            z-index: 2; /* Above container decorations */
+        }
+        .progress-bar {
+            width: 100%;
+            height: 12px; /* Thicker bar */
+            background-color: rgba(0, 64, 38, 0.1); /* Use company color shade */
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .progress-fill {
+            height: 100%;
+            /* Nice gradient fill */
+            background: linear-gradient(90deg, var(--company-color), #007a4f);
+            width: 0%; /* Initial width set by JS */
+            border-radius: 6px;
+            transition: width 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother transition */
+            box-shadow: 0 0 10px rgba(0, 122, 79, 0.4); /* Add a subtle glow */
+        }
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 12px;
+            padding: 0 5px; /* Align steps slightly better */
+        }
+        .step {
+            position: relative;
+            text-align: center;
+            width: 16.666%; /* 6 sections */
+            cursor: default; /* Indicate non-clickable */
+        }
+        .step-dot {
+            width: 24px; /* Larger dots */
+            height: 24px;
+            background-color: #ddd;
+            border: 3px solid #fff; /* White border for contrast */
+            border-radius: 50%;
+            margin: 0 auto 8px;
+            position: relative;
+            z-index: 2;
+            transition: all 0.4s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .step.active .step-dot {
+            background-color: var(--company-color);
+            border-color: var(--company-color); /* Match background */
+            transform: scale(1.1); /* Slightly larger when active */
+            box-shadow: 0 0 0 4px rgba(0, 64, 38, 0.15), 0 3px 6px rgba(0,0,0,0.2); /* More prominent */
+        }
+        /* Line connecting dots (visual only) */
+        .progress-steps::before {
+            content: '';
+            position: absolute;
+            top: 14px; /* Align with center of dots */
+            left: 8.333%; /* Start after half of first step */
+            right: 8.333%; /* End before half of last step */
+            height: 4px;
+            background-color: #e0e0e0;
+            z-index: 1; /* Behind dots */
+            border-radius: 2px;
+        }
+        .step-label {
+            font-size: 0.85em; /* Slightly larger label */
+            color: #666;
+            transition: all 0.4s ease;
+        }
+        .step.active .step-label {
+            color: var(--company-color);
+            font-weight: bold;
+            transform: translateY(2px); /* Slight shift down */
+        }
+
+        /* Form Group & Label Styling */
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: 28px; /* Slightly more space */
             text-align: right;
+            position: relative;
+            z-index: 1;
         }
         label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 10px; /* More space below label */
             font-weight: bold;
             color: #333;
             text-align: right;
+            position: relative;
         }
+        /* Required field indicator using Font Awesome */
+        label.required::after {
+            /* Using ::after to place it correctly in RTL */
+            font-family: "Font Awesome 6 Free";
+            content: "\f06a"; /* Exclamation Circle */
+            font-weight: 900;
+            margin-right: 8px; /* Space before label */
+            font-size: 0.85em;
+            color: var(--company-color);
+            opacity: 0.8;
+            vertical-align: middle;
+        }
+        /* Removed original .required:after asterisk style */
 
-        /* Enhanced Form Field Styling */
+        /* Input Field Styling */
         input[type="text"],
         input[type="email"],
         input[type="tel"],
         textarea,
         select {
             width: 100%;
-            padding: 12px 15px;
+            padding: 13px 18px; /* More padding */
             border: 1px solid #ccc;
-            border-right: 4px solid transparent; /* Start with transparent border for animation (RTL) */
             border-radius: 8px;
             font-size: 16px;
-            background-color: rgba(255, 255, 255, 0.75);
-            /* Include transform and border-color in transition */
-            transition: border-color 0.3s ease, box-shadow 0.3s ease, border-right-color 0.3s ease, transform 0.3s ease;
+            background-color: rgba(255, 255, 255, 0.8); /* Slightly more opaque */
+            transition: all 0.3s ease;
+            border-right: 5px solid transparent; /* Start with transparent border (RTL) */
         }
-        input[type="text"]:focus,
-        input[type="email"]:focus,
-        input[type="tel"]:focus,
-        textarea:focus,
-        select:focus {
+        input:focus, textarea:focus, select:focus {
             outline: none;
-            border-color: var(--company-color); /* Main border highlight */
-            border-right-color: var(--company-color); /* Animate right border color (RTL) */
-            box-shadow: 0 0 0 3px rgba(0, 64, 38, 0.1); /* Subtle glow */
-            transform: translateX(-3px); /* Slight shift effect (RTL) */
-            background-color: rgba(255, 255, 255, 0.9); /* Slightly more opaque on focus */
+            border-color: #bbb; /* Main border slightly darker on focus */
+            border-right: 5px solid var(--company-color); /* Animate right border (RTL) */
+            box-shadow: 0 0 12px rgba(0, 64, 38, 0.12); /* Softer glow */
+            background-color: white; /* Fully opaque on focus */
         }
         textarea {
-            min-height: 120px;
+            min-height: 130px; /* Taller textarea */
             resize: vertical;
         }
 
         /* Table Styling */
         .rating-table {
             width: 100%;
-            border-collapse: collapse;
+            border-collapse: separate; /* Use separate for better border-radius */
+            border-spacing: 0;
             margin-bottom: 30px;
             background-color: rgba(255, 255, 255, 0.6);
-            border-radius: 8px;
+            border-radius: 10px; /* Match container */
             overflow: hidden;
-            border: 1px solid #eee;
+            border: 1px solid #e8e8e8;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.04);
         }
         .rating-table th, .rating-table td {
-            padding: 12px 15px;
-            border: none;
+            padding: 14px 18px; /* More padding */
             border-bottom: 1px solid #eee;
             text-align: right;
             vertical-align: middle;
         }
-         .rating-table tbody tr:last-child td { border-bottom: none; }
+        .rating-table tbody tr:hover {
+            background-color: rgba(0, 64, 38, 0.03); /* Subtle hover */
+        }
+        .rating-table tbody tr:last-child td { border-bottom: none; }
         .rating-table th {
-            background-color: rgba(0, 64, 38, 0.08);
+            background-color: rgba(0, 64, 38, 0.09);
             font-weight: bold;
             color: var(--company-color);
+            border-bottom: 1px solid rgba(0, 64, 38, 0.15); /* Stronger header border */
         }
         .rating-table td input[type="text"] {
              background-color: rgba(255, 255, 255, 0.85);
+             border-right-width: 4px; /* Adjust focus border */
         }
+        .rating-table td input[type="text"]:focus {
+            border-right-width: 4px;
+        }
+
 
         /* Radio Buttons Styling */
         .importance-options, .rating-options {
@@ -214,117 +348,204 @@
             padding-top: 5px;
         }
         .importance-options label, .rating-options label {
-            display: inline-block;
-            margin-right: 0;
-            margin-left: 18px; /* Increased spacing */
+            display: inline-block; /* Was inline-flex, check layout */
+            margin-left: 20px; /* Space between options */
             font-weight: normal;
             cursor: pointer;
             color: #555;
-            transition: color 0.3s ease;
+            position: relative;
+            padding-right: 28px; /* Space for custom radio */
+            transition: all 0.2s ease;
+            line-height: 20px; /* Align text better */
         }
-         .importance-options label:hover, .rating-options label:hover {
-            color: var(--company-color); /* Highlight label on hover */
-         }
-        .importance-options input, .rating-options input {
-            width: auto;
-            margin-left: 6px; /* Increased space */
-            vertical-align: middle;
+        .importance-options label:hover, .rating-options label:hover {
+            color: var(--company-color);
+        }
+        /* Hide default radio */
+        .importance-options input[type="radio"],
+        .rating-options input[type="radio"] {
+            position: absolute;
+            opacity: 0;
             cursor: pointer;
+            height: 0;
+            width: 0;
         }
         /* Custom Radio Appearance */
-        .rating-options input[type="radio"],
-        .importance-options input[type="radio"] {
-            appearance: none;
-            -webkit-appearance: none;
-            width: 18px; /* Slightly larger */
-            height: 18px;
-            border: 2px solid #bbb; /* Slightly darker */
-            border-radius: 50%;
-            display: inline-block;
-            position: relative;
-            top: 4px;
-            margin-left: 6px;
-            cursor: pointer;
-            transition: border-color 0.3s ease, background-color 0.3s ease;
-        }
-         .rating-options input[type="radio"]:checked,
-         .importance-options input[type="radio"]:checked {
-            border-color: var(--company-color);
-            background-color: rgba(255, 255, 255, 0.8); /* Add a slight fill */
-         }
-        .rating-options input[type="radio"]:checked::after,
-        .importance-options input[type="radio"]:checked::after {
+        .importance-options label::before,
+        .rating-options label::before {
             content: '';
-            width: 8px; /* Smaller dot */
-            height: 8px;
-            background-color: var(--company-color);
-            border-radius: 50%;
             position: absolute;
+            right: 0;
             top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            border: 2px solid #bbb;
+            border-radius: 50%;
+            background-color: #fff;
+            transition: all 0.3s ease;
+        }
+        /* Checked state - border */
+        .importance-options input[type="radio"]:checked + label::before,
+        .rating-options input[type="radio"]:checked + label::before {
+            border-color: var(--company-color);
+            background-color: var(--light-accent);
+        }
+        /* Checked state - inner dot */
+        .importance-options label::after,
+        .rating-options label::after {
+            content: '';
+            position: absolute;
+            right: 6px; /* Position inside the ::before circle */
+            top: 50%;
+            transform: translateY(-50%) scale(0); /* Start hidden */
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--company-color);
+            transition: all 0.3s ease;
+        }
+        .importance-options input[type="radio"]:checked + label::after,
+        .rating-options input[type="radio"]:checked + label::after {
+             transform: translateY(-50%) scale(1); /* Scale in when checked */
         }
 
+
+        /* Submit Button Styling */
         .btn-submit {
-            background: var(--company-color);
-            background: linear-gradient(to bottom, var(--company-color), #005a36); /* Subtle gradient */
+            background-color: var(--company-color);
             color: white;
             border: none;
-            padding: 15px 30px;
+            padding: 16px 30px; /* Larger padding */
             font-size: 18px;
             font-weight: bold;
             cursor: pointer;
-            border-radius: 8px;
+            border-radius: 10px; /* Match tables/inputs */
             width: 100%;
             margin-top: 25px;
-            transition: all 0.3s ease; /* Smooth transition */
-            box-shadow: 0 2px 5px rgba(0, 64, 38, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden; /* For pseudo-element */
+            z-index: 1;
+             box-shadow: 0 4px 10px rgba(0, 64, 38, 0.2);
+        }
+        /* Shimmer effect on hover */
+        .btn-submit::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -150%; /* Start further left */
+            width: 80%; /* Wider shimmer */
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+            transform: skewX(-25deg); /* Angled shimmer */
+            transition: left 0.7s ease; /* Slower transition */
         }
         .btn-submit:hover {
-            background: linear-gradient(to bottom, #005a36, #004d2f); /* Darker gradient on hover */
-            transform: translateY(-3px) scale(1.01); /* Lift and slightly grow */
-            box-shadow: 0 6px 15px rgba(0, 64, 38, 0.3); /* Enhanced shadow */
+            background-color: #005a36;
+            transform: translateY(-3px); /* Lift effect */
+            box-shadow: 0 7px 18px rgba(0, 64, 38, 0.3); /* Stronger shadow */
+        }
+        .btn-submit:hover::before {
+            left: 120%; /* Move across and off */
         }
         .btn-submit:active {
-             transform: translateY(-1px); /* Press down effect */
-             box-shadow: 0 3px 10px rgba(0, 64, 38, 0.2);
+             transform: translateY(-1px);
+             box-shadow: 0 4px 10px rgba(0, 64, 38, 0.2);
         }
 
-        .required:after {
-            content: " *";
-            color: #d9534f;
-            font-weight: bold;
-            margin-right: 2px;
-        }
+
+        /* Success Message Styling */
         .success-message {
-            padding: 18px 25px; /* More padding */
-            background-color: #eaf0eb; /* Use light accent */
-            border: 1px solid var(--company-color); /* Border with company color */
-            color: var(--company-color); /* Text with company color */
-            border-radius: 8px;
-            margin-top: 30px;
-            display: none;
+            padding: 18px 25px;
+            background-color: rgba(223, 240, 216, 0.9); /* Slightly more opaque */
+            border: 1px solid #b7e3ae; /* Softer green border */
+            color: #2a5b2f; /* Darker green text */
+            border-radius: 10px;
+            margin-top: 35px;
+            display: none; /* Hidden initially */
             text-align: center;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 0.6s ease-out; /* Slightly slower animation */
             font-weight: bold;
         }
+        .success-message i {
+            margin-left: 10px;
+            font-size: 1.1em;
+            vertical-align: middle;
+        }
 
-        /* Visual Section Divider */
-        .section-divider {
-            height: 4px; /* Slightly thicker */
-            background: linear-gradient(to right, rgba(255,255,255,0), var(--company-color), rgba(255,255,255,0));
-            margin: 50px auto 40px auto; /* More vertical margin, center */
+        /* Scroll-to-top Indicator */
+        .scroll-indicator {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 45px; /* Larger */
+            height: 45px;
             border-radius: 50%;
-            width: 70%; /* Don't span full width */
-            opacity: 0.6; /* Make it less prominent */
+            background-color: var(--company-color);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 5px 18px rgba(0, 64, 38, 0.3); /* Stronger shadow */
+            opacity: 0; /* Hidden initially */
+            visibility: hidden; /* Hidden initially */
+            transition: all 0.4s ease; /* Smoother transition */
+            z-index: 1000;
+        }
+        .scroll-indicator.visible {
+            opacity: 0.9; /* Slightly transparent */
+            visibility: visible;
+        }
+        .scroll-indicator:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        .scroll-indicator i {
+            animation: bounce 2s infinite ease-in-out;
+        }
+        /* Bounce Animation */
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        /* FadeInUp Animation */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(25px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 25px 20px;
+                border-radius: 12px;
+            }
+             body { padding: 30px 10px; }
+            h1 { font-size: 1.8em; }
+            h1::after { width: 80px; height: 3px;}
+            h2 { font-size: 1.4em; }
+            .step-label { display: none; } /* Hide labels on small screens */
+            .progress-steps::before { display: none; } /* Hide connecting line */
+            .step-dot { width: 18px; height: 18px; border-width: 2px;}
+             .importance-options label, .rating-options label { margin-left: 15px; padding-right: 24px;}
+             .importance-options label::before, .rating-options label::before {width: 16px; height: 16px;}
+              .importance-options label::after, .rating-options label::after {width: 8px; height: 8px; right: 4px;}
+            .btn-submit { padding: 14px 20px; font-size: 17px; }
+            .scroll-indicator { bottom: 15px; right: 15px; width: 40px; height: 40px; }
         }
 
     </style>
 </head>
 <body>
-
-    <!-- Progress Bar -->
-    <div id="progressBarContainer">
-        <div id="progressBarFill"></div>
+    <!-- Scroll Top Button -->
+    <div class="scroll-indicator" id="scrollTopBtn">
+        <i class="fas fa-chevron-up"></i>
     </div>
 
     <div class="container">
@@ -333,9 +554,37 @@
         <h1>فرم نیازسنجی طراحی سایت بین‌المللی - واحد صادرات</h1>
         <p><strong>هدف:</strong> شناسایی دقیق نیازهای واحد صادرات برای طراحی یک وب‌سایت بین‌المللی کارآمد، متناسب با مخاطبان خارجی، با تمرکز بر فروش، ارتباط و برندینگ جهانی.</p>
 
-        <!-- Start Form -->
+        <!-- Enhanced Progress indicator -->
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-steps" id="progressSteps">
+                <!-- Steps correspond to H2 IDs -->
+                <div class="step active" data-section="section1">
+                    <div class="step-dot"></div><div class="step-label">اطلاعات پایه</div>
+                </div>
+                <div class="step" data-section="section2">
+                    <div class="step-dot"></div><div class="step-label">مخاطبان</div>
+                </div>
+                <div class="step" data-section="section3">
+                    <div class="step-dot"></div><div class="step-label">محتوا</div>
+                </div>
+                <div class="step" data-section="section4">
+                    <div class="step-dot"></div><div class="step-label">ویژگی‌ها</div>
+                </div>
+                <div class="step" data-section="section5">
+                    <div class="step-dot"></div><div class="step-label">اهداف</div>
+                </div>
+                <div class="step" data-section="section6">
+                    <div class="step-dot"></div><div class="step-label">نظرات</div>
+                </div>
+            </div>
+        </div>
+
         <form id="exportForm">
 
+            <!-- Section 1: Basic Info -->
             <h2 id="section1">۱. اطلاعات پایه واحد صادرات</h2>
             <div class="form-group">
                 <label for="fullName" class="required">نام و سمت پرکننده فرم</label>
@@ -360,8 +609,9 @@
 
             <div class="section-divider"></div>
 
+            <!-- Section 2: Target Audience -->
             <h2 id="section2">۲. مخاطبان هدف وب‌سایت</h2>
-             <div class="form-group">
+            <div class="form-group">
                 <label for="targetAudience">مشتریان اصلی خارجی چه کسانی هستند؟ (واردکننده، پخش‌کننده، فروشگاه‌ها، مصرف‌کننده نهایی و ...)</label>
                 <textarea id="targetAudience" name="targetAudience"></textarea>
             </div>
@@ -376,29 +626,122 @@
 
             <div class="section-divider"></div>
 
+            <!-- Section 3: Content Needs -->
             <h2 id="section3">۳. محتوای مورد نیاز در سایت</h2>
             <p>لطفاً مشخص کنید که وجود هر یک از بخش‌های زیر برای شما چقدر اهمیت دارد:</p>
             <table class="rating-table">
-                 <thead>
+                <thead>
                     <tr><th>بخش</th><th>اهمیت</th><th>توضیحات بیشتر (در صورت نیاز)</th></tr>
                 </thead>
-                 <tbody>
-                    <tr><td>معرفی شرکت</td><td><div class="importance-options"><label><input type="radio" name="importance_company" value="ضروری"> ضروری</label><label><input type="radio" name="importance_company" value="مفید"> مفید</label><label><input type="radio" name="importance_company" value="بی‌اهمیت"> بی‌اهمیت</label></div></td><td><input type="text" name="note_company"></td></tr>
-                    <tr><td>معرفی محصولات و دسته‌بندی‌ها</td><td><div class="importance-options"><label><input type="radio" name="importance_products" value="ضروری"> ضروری</label><label><input type="radio" name="importance_products" value="مفید"> مفید</label><label><input type="radio" name="importance_products" value="بی‌اهمیت"> بی‌اهمیت</label></div></td><td><input type="text" name="note_products"></td></tr>
-                    <tr><td>دریافت کاتالوگ PDF یا فایل‌های مرتبط</td><td><div class="importance-options"><label><input type="radio" name="importance_catalog" value="ضروری"> ضروری</label><label><input type="radio" name="importance_catalog" value="مفید"> مفید</label><label><input type="radio" name="importance_catalog" value="بی‌اهمیت"> بی‌اهمیت</label></div></td><td><input type="text" name="note_catalog"></td></tr>
-                    <tr><td>فرم درخواست همکاری / استعلام قیمت</td><td><div class="importance-options"><label><input type="radio" name="importance_inquiry" value="ضروری"> ضروری</label><label><input type="radio" name="importance_inquiry" value="مفید"> مفید</label><label><input type="radio" name="importance_inquiry" value="بی‌اهمیت"> بی‌اهمیت</label></div></td><td><input type="text" name="note_inquiry"></td></tr>
-                    <tr><td>مشخصات تماس مستقیم با تیم صادرات</td><td><div class="importance-options"><label><input type="radio" name="importance_contact" value="ضروری"> ضروری</label><label><input type="radio" name="importance_contact" value="مفید"> مفید</label><label><input type="radio" name="importance_contact" value="بی‌اهمیت"> بی‌اهمیت</label></div></td><td><input type="text" name="note_contact"></td></tr>
-                    <tr><td>نقشه یا مسیر دسترسی</td><td><div class="importance-options"><label><input type="radio" name="importance_map" value="ضروری"> ضروری</label><label><input type="radio" name="importance_map" value="مفید"> مفید</label><label><input type="radio" name="importance_map" value="بی‌اهمیت"> بی‌اهمیت</label></div></td><td><input type="text" name="note_map"></td></tr>
-                    <tr><td>صفحه سؤالات متداول (FAQ)</td><td><div class="importance-options"><label><input type="radio" name="importance_faq" value="ضروری"> ضروری</label><label><input type="radio" name="importance_faq" value="مفید"> مفید</label><label><input type="radio" name="importance_faq" value="بی‌اهمیت"> بی‌اهمیت</label></div></td><td><input type="text" name="note_faq"></td></tr>
-                    <tr><td>بلاگ تخصصی یا مقالات</td><td><div class="importance-options"><label><input type="radio" name="importance_blog" value="ضروری"> ضروری</label><label><input type="radio" name="importance_blog" value="مفید"> مفید</label><label><input type="radio" name="importance_blog" value="بی‌اهمیت"> بی‌اهمیت</label></div></td><td><input type="text" name="note_blog"></td></tr>
-                    <tr><td>اخبار شرکت / حضور در نمایشگاه‌ها</td><td><div class="importance-options"><label><input type="radio" name="importance_news" value="ضروری"> ضروری</label><label><input type="radio" name="importance_news" value="مفید"> مفید</label><label><input type="radio" name="importance_news" value="بی‌اهمیت"> بی‌اهمیت</label></div></td><td><input type="text" name="note_news"></td></tr>
-                 </tbody>
+                <tbody>
+                    <!-- Ensuring all rows are present -->
+                    <tr>
+                        <td>معرفی شرکت</td>
+                        <td>
+                            <div class="importance-options">
+                                <input type="radio" id="imp_comp_1" name="importance_company" value="ضروری"><label for="imp_comp_1">ضروری</label>
+                                <input type="radio" id="imp_comp_2" name="importance_company" value="مفید"><label for="imp_comp_2">مفید</label>
+                                <input type="radio" id="imp_comp_3" name="importance_company" value="بی‌اهمیت"><label for="imp_comp_3">بی‌اهمیت</label>
+                            </div>
+                        </td>
+                        <td><input type="text" name="note_company"></td>
+                    </tr>
+                    <tr>
+                        <td>معرفی محصولات و دسته‌بندی‌ها</td>
+                        <td>
+                            <div class="importance-options">
+                                <input type="radio" id="imp_prod_1" name="importance_products" value="ضروری"><label for="imp_prod_1">ضروری</label>
+                                <input type="radio" id="imp_prod_2" name="importance_products" value="مفید"><label for="imp_prod_2">مفید</label>
+                                <input type="radio" id="imp_prod_3" name="importance_products" value="بی‌اهمیت"><label for="imp_prod_3">بی‌اهمیت</label>
+                            </div>
+                        </td>
+                        <td><input type="text" name="note_products"></td>
+                    </tr>
+                    <tr>
+                        <td>دریافت کاتالوگ PDF یا فایل‌های مرتبط</td>
+                        <td>
+                            <div class="importance-options">
+                                <input type="radio" id="imp_cat_1" name="importance_catalog" value="ضروری"><label for="imp_cat_1">ضروری</label>
+                                <input type="radio" id="imp_cat_2" name="importance_catalog" value="مفید"><label for="imp_cat_2">مفید</label>
+                                <input type="radio" id="imp_cat_3" name="importance_catalog" value="بی‌اهمیت"><label for="imp_cat_3">بی‌اهمیت</label>
+                            </div>
+                        </td>
+                        <td><input type="text" name="note_catalog"></td>
+                    </tr>
+                     <tr>
+                        <td>فرم درخواست همکاری / استعلام قیمت</td>
+                        <td>
+                            <div class="importance-options">
+                                <input type="radio" id="imp_inq_1" name="importance_inquiry" value="ضروری"><label for="imp_inq_1">ضروری</label>
+                                <input type="radio" id="imp_inq_2" name="importance_inquiry" value="مفید"><label for="imp_inq_2">مفید</label>
+                                <input type="radio" id="imp_inq_3" name="importance_inquiry" value="بی‌اهمیت"><label for="imp_inq_3">بی‌اهمیت</label>
+                            </div>
+                        </td>
+                        <td><input type="text" name="note_inquiry"></td>
+                    </tr>
+                    <tr>
+                        <td>مشخصات تماس مستقیم با تیم صادرات</td>
+                        <td>
+                            <div class="importance-options">
+                                <input type="radio" id="imp_cont_1" name="importance_contact" value="ضروری"><label for="imp_cont_1">ضروری</label>
+                                <input type="radio" id="imp_cont_2" name="importance_contact" value="مفید"><label for="imp_cont_2">مفید</label>
+                                <input type="radio" id="imp_cont_3" name="importance_contact" value="بی‌اهمیت"><label for="imp_cont_3">بی‌اهمیت</label>
+                            </div>
+                        </td>
+                        <td><input type="text" name="note_contact"></td>
+                    </tr>
+                    <tr>
+                        <td>نقشه یا مسیر دسترسی</td>
+                        <td>
+                            <div class="importance-options">
+                                <input type="radio" id="imp_map_1" name="importance_map" value="ضروری"><label for="imp_map_1">ضروری</label>
+                                <input type="radio" id="imp_map_2" name="importance_map" value="مفید"><label for="imp_map_2">مفید</label>
+                                <input type="radio" id="imp_map_3" name="importance_map" value="بی‌اهمیت"><label for="imp_map_3">بی‌اهمیت</label>
+                            </div>
+                        </td>
+                        <td><input type="text" name="note_map"></td>
+                    </tr>
+                    <tr>
+                        <td>صفحه سؤالات متداول (FAQ)</td>
+                        <td>
+                            <div class="importance-options">
+                                <input type="radio" id="imp_faq_1" name="importance_faq" value="ضروری"><label for="imp_faq_1">ضروری</label>
+                                <input type="radio" id="imp_faq_2" name="importance_faq" value="مفید"><label for="imp_faq_2">مفید</label>
+                                <input type="radio" id="imp_faq_3" name="importance_faq" value="بی‌اهمیت"><label for="imp_faq_3">بی‌اهمیت</label>
+                            </div>
+                        </td>
+                        <td><input type="text" name="note_faq"></td>
+                    </tr>
+                    <tr>
+                        <td>بلاگ تخصصی یا مقالات</td>
+                        <td>
+                            <div class="importance-options">
+                                <input type="radio" id="imp_blog_1" name="importance_blog" value="ضروری"><label for="imp_blog_1">ضروری</label>
+                                <input type="radio" id="imp_blog_2" name="importance_blog" value="مفید"><label for="imp_blog_2">مفید</label>
+                                <input type="radio" id="imp_blog_3" name="importance_blog" value="بی‌اهمیت"><label for="imp_blog_3">بی‌اهمیت</label>
+                            </div>
+                        </td>
+                        <td><input type="text" name="note_blog"></td>
+                    </tr>
+                    <tr>
+                        <td>اخبار شرکت / حضور در نمایشگاه‌ها</td>
+                        <td>
+                            <div class="importance-options">
+                                <input type="radio" id="imp_news_1" name="importance_news" value="ضروری"><label for="imp_news_1">ضروری</label>
+                                <input type="radio" id="imp_news_2" name="importance_news" value="مفید"><label for="imp_news_2">مفید</label>
+                                <input type="radio" id="imp_news_3" name="importance_news" value="بی‌اهمیت"><label for="imp_news_3">بی‌اهمیت</label>
+                            </div>
+                        </td>
+                        <td><input type="text" name="note_news"></td>
+                    </tr>
+                </tbody>
             </table>
 
             <div class="section-divider"></div>
 
+            <!-- Section 4: Technical Features -->
             <h2 id="section4">۴. ویژگی‌های فنی و عملکردی مورد انتظار</h2>
-            <div class="form-group">
+             <div class="form-group">
                 <label for="showPrices">آیا لازم است محصولات با قیمت نمایش داده شوند؟ اگر بله، قیمت برای چه کسی؟ (عموم، نماینده، خریدار خاص)</label>
                 <textarea id="showPrices" name="showPrices"></textarea>
             </div>
@@ -421,23 +764,110 @@
 
             <div class="section-divider"></div>
 
+            <!-- Section 5: Goals -->
             <h2 id="section5">۵. اهداف اصلی سایت از نظر شما چیست؟</h2>
             <p>هر مورد را از ۱ تا ۵ امتیاز دهید: ۱ = کم‌اهمیت، ۵ = بسیار مهم</p>
             <table class="rating-table">
                 <thead><tr><th>هدف</th><th>امتیاز</th><th>پیشنهادات برای تحقق</th></tr></thead>
                  <tbody>
-                    <tr><td>افزایش آگاهی از برند در بازارهای خارجی</td><td><div class="rating-options"><label><input type="radio" name="rating_awareness" value="1"> ۱</label><label><input type="radio" name="rating_awareness" value="2"> ۲</label><label><input type="radio" name="rating_awareness" value="3"> ۳</label><label><input type="radio" name="rating_awareness" value="4"> ۴</label><label><input type="radio" name="rating_awareness" value="5"> ۵</label></div></td><td><input type="text" name="suggestion_awareness"></td></tr>
-                    <tr><td>جذب مشتری جدید بین‌المللی</td><td><div class="rating-options"><label><input type="radio" name="rating_acquisition" value="1"> ۱</label><label><input type="radio" name="rating_acquisition" value="2"> ۲</label><label><input type="radio" name="rating_acquisition" value="3"> ۳</label><label><input type="radio" name="rating_acquisition" value="4"> ۴</label><label><input type="radio" name="rating_acquisition" value="5"> ۵</label></div></td><td><input type="text" name="suggestion_acquisition"></td></tr>
-                    <tr><td>ایجاد اعتماد در خریدار خارجی</td><td><div class="rating-options"><label><input type="radio" name="rating_trust" value="1"> ۱</label><label><input type="radio" name="rating_trust" value="2"> ۲</label><label><input type="radio" name="rating_trust" value="3"> ۳</label><label><input type="radio" name="rating_trust" value="4"> ۴</label><label><input type="radio" name="rating_trust" value="5"> ۵</label></div></td><td><input type="text" name="suggestion_trust"></td></tr>
-                    <tr><td>ارائه اطلاعات فنی و تخصصی به مشتری</td><td><div class="rating-options"><label><input type="radio" name="rating_info" value="1"> ۱</label><label><input type="radio" name="rating_info" value="2"> ۲</label><label><input type="radio" name="rating_info" value="3"> ۳</label><label><input type="radio" name="rating_info" value="4"> ۴</label><label><input type="radio" name="rating_info" value="5"> ۵</label></div></td><td><input type="text" name="suggestion_info"></td></tr>
-                    <tr><td>امکان تماس یا درخواست همکاری</td><td><div class="rating-options"><label><input type="radio" name="rating_contact" value="1"> ۱</label><label><input type="radio" name="rating_contact" value="2"> ۲</label><label><input type="radio" name="rating_contact" value="3"> ۳</label><label><input type="radio" name="rating_contact" value="4"> ۴</label><label><input type="radio" name="rating_contact" value="5"> ۵</label></div></td><td><input type="text" name="suggestion_contact"></td></tr>
-                    <tr><td>سهولت در ارسال کاتالوگ یا فایل‌های دیگر</td><td><div class="rating-options"><label><input type="radio" name="rating_catalog" value="1"> ۱</label><label><input type="radio" name="rating_catalog" value="2"> ۲</label><label><input type="radio" name="rating_catalog" value="3"> ۳</label><label><input type="radio" name="rating_catalog" value="4"> ۴</label><label><input type="radio" name="rating_catalog" value="5"> ۵</label></div></td><td><input type="text" name="suggestion_catalog"></td></tr>
-                    <tr><td>رقابت با برندهای خارجی در فضای وب</td><td><div class="rating-options"><label><input type="radio" name="rating_competition" value="1"> ۱</label><label><input type="radio" name="rating_competition" value="2"> ۲</label><label><input type="radio" name="rating_competition" value="3"> ۳</label><label><input type="radio" name="rating_competition" value="4"> ۴</label><label><input type="radio" name="rating_competition" value="5"> ۵</label></div></td><td><input type="text" name="suggestion_competition"></td></tr>
+                     <!-- Ensuring all rows are present -->
+                    <tr>
+                        <td>افزایش آگاهی از برند در بازارهای خارجی</td>
+                        <td>
+                            <div class="rating-options">
+                                <input type="radio" id="rat_aware_1" name="rating_awareness" value="1"><label for="rat_aware_1">۱</label>
+                                <input type="radio" id="rat_aware_2" name="rating_awareness" value="2"><label for="rat_aware_2">۲</label>
+                                <input type="radio" id="rat_aware_3" name="rating_awareness" value="3"><label for="rat_aware_3">۳</label>
+                                <input type="radio" id="rat_aware_4" name="rating_awareness" value="4"><label for="rat_aware_4">۴</label>
+                                <input type="radio" id="rat_aware_5" name="rating_awareness" value="5"><label for="rat_aware_5">۵</label>
+                            </div>
+                        </td>
+                        <td><input type="text" name="suggestion_awareness"></td>
+                    </tr>
+                    <tr>
+                        <td>جذب مشتری جدید بین‌المللی</td>
+                        <td>
+                            <div class="rating-options">
+                                <input type="radio" id="rat_acq_1" name="rating_acquisition" value="1"><label for="rat_acq_1">۱</label>
+                                <input type="radio" id="rat_acq_2" name="rating_acquisition" value="2"><label for="rat_acq_2">۲</label>
+                                <input type="radio" id="rat_acq_3" name="rating_acquisition" value="3"><label for="rat_acq_3">۳</label>
+                                <input type="radio" id="rat_acq_4" name="rating_acquisition" value="4"><label for="rat_acq_4">۴</label>
+                                <input type="radio" id="rat_acq_5" name="rating_acquisition" value="5"><label for="rat_acq_5">۵</label>
+                            </div>
+                        </td>
+                        <td><input type="text" name="suggestion_acquisition"></td>
+                    </tr>
+                    <tr>
+                        <td>ایجاد اعتماد در خریدار خارجی</td>
+                        <td>
+                            <div class="rating-options">
+                                <input type="radio" id="rat_trust_1" name="rating_trust" value="1"><label for="rat_trust_1">۱</label>
+                                <input type="radio" id="rat_trust_2" name="rating_trust" value="2"><label for="rat_trust_2">۲</label>
+                                <input type="radio" id="rat_trust_3" name="rating_trust" value="3"><label for="rat_trust_3">۳</label>
+                                <input type="radio" id="rat_trust_4" name="rating_trust" value="4"><label for="rat_trust_4">۴</label>
+                                <input type="radio" id="rat_trust_5" name="rating_trust" value="5"><label for="rat_trust_5">۵</label>
+                            </div>
+                        </td>
+                        <td><input type="text" name="suggestion_trust"></td>
+                    </tr>
+                    <tr>
+                        <td>ارائه اطلاعات فنی و تخصصی به مشتری</td>
+                        <td>
+                            <div class="rating-options">
+                                <input type="radio" id="rat_info_1" name="rating_info" value="1"><label for="rat_info_1">۱</label>
+                                <input type="radio" id="rat_info_2" name="rating_info" value="2"><label for="rat_info_2">۲</label>
+                                <input type="radio" id="rat_info_3" name="rating_info" value="3"><label for="rat_info_3">۳</label>
+                                <input type="radio" id="rat_info_4" name="rating_info" value="4"><label for="rat_info_4">۴</label>
+                                <input type="radio" id="rat_info_5" name="rating_info" value="5"><label for="rat_info_5">۵</label>
+                            </div>
+                        </td>
+                        <td><input type="text" name="suggestion_info"></td>
+                    </tr>
+                    <tr>
+                        <td>امکان تماس یا درخواست همکاری</td>
+                        <td>
+                            <div class="rating-options">
+                                <input type="radio" id="rat_contact_1" name="rating_contact" value="1"><label for="rat_contact_1">۱</label>
+                                <input type="radio" id="rat_contact_2" name="rating_contact" value="2"><label for="rat_contact_2">۲</label>
+                                <input type="radio" id="rat_contact_3" name="rating_contact" value="3"><label for="rat_contact_3">۳</label>
+                                <input type="radio" id="rat_contact_4" name="rating_contact" value="4"><label for="rat_contact_4">۴</label>
+                                <input type="radio" id="rat_contact_5" name="rating_contact" value="5"><label for="rat_contact_5">۵</label>
+                            </div>
+                        </td>
+                        <td><input type="text" name="suggestion_contact"></td>
+                    </tr>
+                    <tr>
+                        <td>سهولت در ارسال کاتالوگ یا فایل‌های دیگر</td>
+                        <td>
+                            <div class="rating-options">
+                                <input type="radio" id="rat_cat_1" name="rating_catalog" value="1"><label for="rat_cat_1">۱</label>
+                                <input type="radio" id="rat_cat_2" name="rating_catalog" value="2"><label for="rat_cat_2">۲</label>
+                                <input type="radio" id="rat_cat_3" name="rating_catalog" value="3"><label for="rat_cat_3">۳</label>
+                                <input type="radio" id="rat_cat_4" name="rating_catalog" value="4"><label for="rat_cat_4">۴</label>
+                                <input type="radio" id="rat_cat_5" name="rating_catalog" value="5"><label for="rat_cat_5">۵</label>
+                            </div>
+                        </td>
+                        <td><input type="text" name="suggestion_catalog"></td>
+                    </tr>
+                    <tr>
+                        <td>رقابت با برندهای خارجی در فضای وب</td>
+                        <td>
+                            <div class="rating-options">
+                                <input type="radio" id="rat_comp_1" name="rating_competition" value="1"><label for="rat_comp_1">۱</label>
+                                <input type="radio" id="rat_comp_2" name="rating_competition" value="2"><label for="rat_comp_2">۲</label>
+                                <input type="radio" id="rat_comp_3" name="rating_competition" value="3"><label for="rat_comp_3">۳</label>
+                                <input type="radio" id="rat_comp_4" name="rating_competition" value="4"><label for="rat_comp_4">۴</label>
+                                <input type="radio" id="rat_comp_5" name="rating_competition" value="5"><label for="rat_comp_5">۵</label>
+                            </div>
+                        </td>
+                        <td><input type="text" name="suggestion_competition"></td>
+                    </tr>
                  </tbody>
             </table>
 
             <div class="section-divider"></div>
 
+            <!-- Section 6: Other Comments -->
             <h2 id="section6">۶. نظرات، پیشنهادها یا دغدغه‌های خاص شما</h2>
             <div class="form-group">
                 <label for="otherComments">در مورد بازارهای هدف، محتوای حساس، طراحی، سرعت سایت، تحریم‌ها و...</label>
@@ -446,114 +876,187 @@
 
             <button type="submit" class="btn-submit">ارسال فرم</button>
         </form>
-        <!-- End Form -->
 
+        <!-- Success Message -->
         <div id="successMessage" class="success-message">
-            <i class="fas fa-check-circle" style="margin-left: 8px;"></i> <!-- Added success icon -->
+            <i class="fas fa-check-circle"></i>
             اطلاعات شما با موفقیت ثبت شد. با تشکر از همکاری شما.
         </div>
     </div><!-- End Container -->
 
     <!-- JavaScript -->
     <script>
-        // --- Progress Bar Logic ---
-        const progressBarFill = document.getElementById('progressBarFill');
-        const formElement = document.getElementById('exportForm'); // Or use .container
+        document.addEventListener('DOMContentLoaded', () => {
 
-        function updateProgressBar() {
-            // Calculate based on overall page scroll for simplicity
-            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-            const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
-            const clientHeight = document.documentElement.clientHeight || window.innerHeight;
-
-            // Calculate the scrollable distance
-            const scrollableHeight = scrollHeight - clientHeight;
-
-            if (scrollableHeight <= 0) {
-                progressBarFill.style.width = '100%'; // Full if page isn't scrollable
-                return;
+            // --- Scroll-to-Top Button Logic ---
+            const scrollTopBtn = document.getElementById('scrollTopBtn');
+            if (scrollTopBtn) {
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 300) { // Show after scrolling down 300px
+                        scrollTopBtn.classList.add('visible');
+                    } else {
+                        scrollTopBtn.classList.remove('visible');
+                    }
+                });
+                scrollTopBtn.addEventListener('click', () => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
             }
 
-            // Calculate progress percentage
-            let scrollPercent = (scrollTop / scrollableHeight) * 100;
-            scrollPercent = Math.min(100, Math.max(0, scrollPercent)); // Clamp between 0 and 100
+            // --- Progress Bar Logic (Intersection Observer) ---
+            const progressFill = document.getElementById('progressFill');
+            const steps = document.querySelectorAll('#progressSteps .step');
+            const sections = document.querySelectorAll('h2[id^="section"]'); // Select all h2 with id starting "section"
+            const numSections = sections.length;
+            let highestVisibleSection = 0;
 
-            progressBarFill.style.width = scrollPercent + '%';
-        }
+            if (progressFill && steps.length > 0 && sections.length > 0) {
+                const observerCallback = (entries) => {
+                    entries.forEach(entry => {
+                        const sectionId = entry.target.id;
+                        const sectionNumber = parseInt(sectionId.replace('section', ''), 10);
 
-        // Update on scroll and page load/resize
-        window.addEventListener('scroll', updateProgressBar);
-        window.addEventListener('resize', updateProgressBar);
-        document.addEventListener('DOMContentLoaded', updateProgressBar); // Initial calculation
-
-
-        // --- Form Submission Logic (Formspree) ---
-        document.getElementById('exportForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            const formData = new FormData(this);
-            const formObject = Object.fromEntries(formData.entries());
-            const jsonData = JSON.stringify(formObject);
-
-            const formspreeURL = 'https://formspree.io/f/xaneklpz'; // Your Formspree URL
-            const submitButton = this.querySelector('.btn-submit');
-            const originalButtonText = submitButton.textContent;
-
-            // Indicate processing
-            submitButton.disabled = true;
-            submitButton.textContent = 'در حال ارسال...';
-
-
-            fetch(formspreeURL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: jsonData
-            })
-            .then(response => {
-                submitButton.disabled = false; // Re-enable button
-                submitButton.textContent = originalButtonText;
-
-                if (response.ok) {
-                    console.log('Success with Formspree!');
-                    document.getElementById('successMessage').style.display = 'block';
-                    document.getElementById('exportForm').reset();
-                    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); // Scroll smoothly to bottom
-                } else {
-                    response.json().then(data => {
-                      if (Object.hasOwn(data, 'errors')) {
-                        throw new Error(data["errors"].map(error => error["message"]).join(", "));
-                      } else {
-                        throw new Error('Formspree submission failed with status: ' + response.status);
-                      }
-                    }).catch(jsonError => {
-                        throw new Error('Formspree submission failed with status: ' + response.status + '. Could not parse error details.');
+                        if (entry.isIntersecting) {
+                            // Update highest visible section if the current one is higher
+                           highestVisibleSection = Math.max(highestVisibleSection, sectionNumber);
+                        } else {
+                            // Optional: If you want progress to decrease when scrolling up past sections
+                            // you might need more complex logic here, but for a standard progress bar,
+                            // just tracking the highest reached point is common.
+                            // If the highest visible section just scrolled out *upwards*,
+                            // we might need to find the *new* highest visible one below it.
+                            // For simplicity, we'll stick to max progress reached.
+                        }
                     });
-                }
-            })
-            .catch(error => {
-                submitButton.disabled = false; // Re-enable button on error too
-                submitButton.textContent = originalButtonText;
-                console.error('Error!', error.message);
-                alert('مشکلی در ارسال فرم رخ داده است. لطفا دوباره تلاش کنید.\nError: ' + error.message);
-            })
-            .finally(() => {
-                 // Hide success message after 7 seconds (longer duration)
-                 setTimeout(() => {
-                    const successMsg = document.getElementById('successMessage');
-                    if (successMsg) {
-                         // Fade out effect (optional)
-                         successMsg.style.transition = 'opacity 0.5s ease';
-                         successMsg.style.opacity = '0';
+
+                     // Update progress bar based on the highest section seen so far
+                    const progressPercent = (highestVisibleSection / numSections) * 100;
+                    progressFill.style.width = `${progressPercent}%`;
+
+                    // Update active step indicators
+                    steps.forEach((step, index) => {
+                        const stepSectionNumber = index + 1;
+                        if (stepSectionNumber <= highestVisibleSection) {
+                            step.classList.add('active');
+                        } else {
+                            step.classList.remove('active');
+                        }
+                    });
+                };
+
+                const observerOptions = {
+                    root: null, // Use the viewport
+                    rootMargin: '0px',
+                    threshold: 0.1 // Trigger when 10% of the section header is visible
+                };
+
+                const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+                sections.forEach(section => {
+                    observer.observe(section);
+                });
+
+                // Initial check in case a section is already visible on load
+                 // We might need a slight delay or alternative check for initial state
+                setTimeout(() => {
+                     sections.forEach(section => {
+                         const rect = section.getBoundingClientRect();
+                         if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
+                              const sectionNumber = parseInt(section.id.replace('section', ''), 10);
+                              highestVisibleSection = Math.max(highestVisibleSection, sectionNumber);
+                         }
+                     });
+                     const initialProgressPercent = (highestVisibleSection / numSections) * 100;
+                     progressFill.style.width = `${initialProgressPercent}%`;
+                     steps.forEach((step, index) => {
+                        if (index + 1 <= highestVisibleSection) step.classList.add('active');
+                     });
+                }, 100); // Small delay for layout
+
+
+            } else {
+                console.warn("Progress bar elements not found.");
+            }
+
+
+            // --- Form Submission Logic (Formspree) ---
+            const exportForm = document.getElementById('exportForm');
+            if (exportForm) {
+                exportForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+
+                    const formData = new FormData(this);
+                    const formObject = Object.fromEntries(formData.entries());
+                    const jsonData = JSON.stringify(formObject);
+
+                    const formspreeURL = 'https://formspree.io/f/xaneklpz'; // Your Formspree URL
+                    const submitButton = this.querySelector('.btn-submit');
+                    const successMessage = document.getElementById('successMessage');
+                    const originalButtonText = submitButton.textContent;
+
+                    // Indicate processing
+                    submitButton.disabled = true;
+                    submitButton.textContent = 'در حال ارسال...';
+                    successMessage.style.display = 'none'; // Hide previous message
+
+                    fetch(formspreeURL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: jsonData
+                    })
+                    .then(response => {
+                         // Check if response status is ok (2xx) or redirection (3xx) which formspree might use
+                        if (response.ok || (response.status >= 300 && response.status < 400) ) {
+                             return Promise.resolve(response); // Treat success/redirect as success
+                        } else {
+                            // Try to parse error json, otherwise throw generic error
+                            return response.json().then(data => {
+                                if (Object.hasOwn(data, 'errors')) {
+                                    throw new Error(data["errors"].map(error => error["message"]).join(", "));
+                                } else {
+                                    throw new Error('Formspree submission failed with status: ' + response.status);
+                                }
+                            }).catch(jsonError => { // Catch if response is not json or .json() fails
+                                throw new Error('Formspree submission failed with status: ' + response.status + '. Could not parse error details.');
+                            });
+                        }
+                    })
+                    .then(() => { // Handle successful submission
+                        console.log('Success with Formspree!');
+                        successMessage.style.display = 'block'; // Show success
+                        exportForm.reset(); // Clear form fields
+                        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); // Scroll to bottom
+                        highestVisibleSection = 0; // Reset progress tracking
+                        progressFill.style.width = '0%';
+                        steps.forEach((step, index) => step.classList.toggle('active', index === 0));
+
+                        // Hide success message after 7 seconds
                          setTimeout(() => {
-                             successMsg.style.display = 'none';
-                             successMsg.style.opacity = '1'; // Reset opacity
-                         }, 500); // Wait for fade out
-                    }
-                 }, 7000);
-            });
+                            successMessage.style.transition = 'opacity 0.5s ease';
+                            successMessage.style.opacity = '0';
+                             setTimeout(() => {
+                                 successMessage.style.display = 'none';
+                                 successMessage.style.opacity = '1'; // Reset opacity
+                                 successMessage.style.transition = ''; // Reset transition
+                             }, 500); // Wait for fade out
+                         }, 7000);
+
+                    })
+                    .catch(error => { // Handle fetch/parsing errors
+                        console.error('Error!', error.message);
+                        alert('مشکلی در ارسال فرم رخ داده است. لطفا دوباره تلاش کنید.\nError: ' + error.message);
+                    })
+                    .finally(() => { // Always re-enable button
+                        submitButton.disabled = false;
+                        submitButton.textContent = originalButtonText;
+                    });
+                });
+            } else {
+                 console.error("Form element #exportForm not found.");
+            }
         });
     </script>
 </body>
